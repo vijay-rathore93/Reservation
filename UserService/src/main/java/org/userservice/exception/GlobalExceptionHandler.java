@@ -14,5 +14,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage()),
 				HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(NoCustomerFoundException.class)
+	public ResponseEntity<ResponseDTO<Integer, String>> handlingCustomerException(NoCustomerFoundException ex) {
+		return new ResponseEntity<>(new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage()),
+				HttpStatus.BAD_REQUEST);
+	}
+	
 
 }

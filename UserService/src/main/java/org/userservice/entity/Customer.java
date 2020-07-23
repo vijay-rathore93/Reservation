@@ -12,7 +12,7 @@ public class Customer {
 
 	@Id
 	@GeneratedValue
-	private Integer customerId;
+	private Long customerId;
 
 	private String name;
 
