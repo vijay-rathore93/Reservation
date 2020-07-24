@@ -38,4 +38,15 @@ public class CustomerController {
 
 	}
 	
+	@GetMapping("/customerDel/{id}")
+	public ResponseEntity<Customer> deleteCustomer(@PathVariable Long id) {
+		return new ResponseEntity<>(customerService.delCustomer(id), HttpStatus.OK);
+
+	}
+	
+	@PostMapping("/customerUpd/{id}")
+	public ResponseEntity<Customer> postCustomer(@PathVariable Long id, @RequestBody Customer customer) {
+		return new ResponseEntity<>(customerService.updCustomer(id,customer), HttpStatus.OK);
+
+	}
 }
