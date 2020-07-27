@@ -4,20 +4,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.userservice.ResponseDTO;
+import org.userservice.model.ResponseDTO;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(CustomerException.class)
-	public ResponseEntity<ResponseDTO<Integer, String>> handlingCustomerException(CustomerException ex) {
-		return new ResponseEntity<>(new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage()),
+	public ResponseEntity<ResponseDTO<String>> handlingCustomerException(CustomerException ex) {
+		return new ResponseEntity<>(new ResponseDTO<>( ex.getMessage()),
 				HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(NoCustomerFoundException.class)
-	public ResponseEntity<ResponseDTO<Integer, String>> handlingCustomerException(NoCustomerFoundException ex) {
-		return new ResponseEntity<>(new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage()),
+	public ResponseEntity<ResponseDTO<String>> handlingCustomerException(NoCustomerFoundException ex) {
+		return new ResponseEntity<>(new ResponseDTO<>(ex.getMessage()),
 				HttpStatus.BAD_REQUEST);
 	}
 	
