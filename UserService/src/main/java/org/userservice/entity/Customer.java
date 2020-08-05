@@ -21,5 +21,9 @@ public class Customer {
 	private String aadharNumber;
 	
 	private Long contactNumber;
+	
+	private String token;
+	
+	private Boolean isActive;
 
 }
