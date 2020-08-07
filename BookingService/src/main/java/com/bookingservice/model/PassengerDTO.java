@@ -7,9 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseDTO<T,R>
-{
-	private T code;
-	private R message;
+public class PassengerDTO {
+
+	private String name;
+	private Integer age;
+	private String gender;
+	private String emailId;
+	private Long contactNumber;
 
 }
