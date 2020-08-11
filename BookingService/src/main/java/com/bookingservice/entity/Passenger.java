@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.sun.istack.NotNull;
-
 import lombok.Data;
 
 @Entity
@@ -17,20 +15,20 @@ public class Passenger {
 	@GeneratedValue
 	private Long id;
 	private String seatNumber;
-	@NotNull
-	@Column(name = "name")
+	
+	@Column(name = "name", nullable = false)
 	private String name;
-	@NotNull
-	@Column(name = "gender")
+	
+	@Column(name = "gender", nullable = false)
 	private String gender;
-	@NotNull
-	@Column(name = "age")
+	
+	@Column(name = "age", nullable = false)
 	private Integer age;
-	@NotNull
-	@Column(name = "contactNumber")
+	
+	@Column(name = "contactNumber", unique = true, nullable = false)
 	private Long contactNumber;
-	@NotNull
-	@Column(name = "emailId")
+	
+	@Column(name = "emailId", unique = true, nullable = false)
 	private String emailId;
 
 }

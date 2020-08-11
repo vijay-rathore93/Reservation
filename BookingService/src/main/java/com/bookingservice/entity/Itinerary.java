@@ -1,6 +1,8 @@
 package com.bookingservice.entity;
 
-import java.security.Timestamp;
+
+
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

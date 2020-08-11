@@ -43,10 +43,10 @@ public class BookingController {
 	
 
 	@GetMapping("/ticket")
-	public ResponseEntity<ResponseDTO<Integer, BookingDTO>> createTicket(@RequestHeader String bookingId) {
+	public ResponseEntity<BookingDTO> createTicket(@RequestHeader String bookingId) {
 		
 		//return new ResponseEntity<String>(ApplicationMessage.JOURNEY_SET, HttpStatus.CREATED);
-		return new ResponseEntity<ResponseDTO<Integer,BookingDTO>>(new ResponseDTO<Integer,BookingDTO>(HttpStatus.OK.value(), bookingService.getTicket(bookingId)), HttpStatus.OK);
+		return new ResponseEntity<BookingDTO>(bookingService.getTicket(bookingId), HttpStatus.OK);
 
 	}
 	
