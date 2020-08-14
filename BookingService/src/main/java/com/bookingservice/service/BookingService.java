@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.bookingservice.BookingRepo;
 import com.bookingservice.entity.Booking;
+import com.bookingservice.entity.BookingStatus;
+import com.bookingservice.entity.Itinerary;
 import com.bookingservice.exception.NoUserFoundException;
 import com.bookingservice.model.BookingDTO;
+import com.bookingservice.utility.ApplicationMessage;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,15 +23,30 @@ public class BookingService {
 	private final BookingRepo bookingRepo;
 	private final ModelMapper modelMapper;
 
-	public void bookingCreation(Booking booking) {
+	public void bookingCreation(BookingDTO bookingDTO) {
 
-		booking.setBookingId(RandomStringUtils.random(30, true, true) + booking.getCustomerId());
+		Booking booking=modelMapper.map(bookingDTO,Booking.class);
+		
+		booking.setBookingId(RandomStringUtils.random(16, true, true) + booking.getCustomerId());
+		if (booking.getIsReturnTicket()) {
 
+			Itinerary itinerary1 = Itinerary.builder().destination(booking.getItinerary().get(0).getSource())
+					.source(booking.getItinerary().get(0).getDestination())
+					.timeOfDeparture(bookingDTO.getTimeOfDepartureForReturn())
+					.expectedArrivalTime(bookingDTO.getExpectedArrivalTimeForReturn())
+					.travelDuration(bookingDTO.getTravelDurationForReturn()).build();
+
+			List<Itinerary> itinerarylist = booking.getItinerary();
+
+			itinerarylist.add(itinerary1);
+
+			booking.setItinerary(itinerarylist);
+
+		}
+
+		booking.setStatus(BookingStatus.BOOKED);
+		
 		bookingRepo.save(booking);
-
-		// BookingId should be generated ALphanumeric 16 digit
-
-		// gender will be one of male,female,other (using enum)
 
 	}
 
@@ -44,6 +62,19 @@ public class BookingService {
 
 		return modelMapper.map(booking, BookingDTO.class);
 
+	}
+
+	public String cancelTicket(String bookingId) {
+		
+		
+		Booking booking = bookingRepo.findByBookingId(bookingId)
+				.orElseThrow(() -> new NoUserFoundException("No Data Found"));
+		
+		booking.setStatus(BookingStatus.CANCELLED);
+		
+		bookingRepo.save(booking);
+		
+		return ApplicationMessage.CANCELLED_TICKET;
 	}
 
 }

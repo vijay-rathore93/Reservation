@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
 
 import lombok.Data;
 
@@ -22,20 +20,33 @@ public class Booking {
 
 	@Id
 	@GeneratedValue
-	private Long id;
-	
-	@Column(name = "bookingId",nullable = false, unique = true)
+	private Long generateId;
+
+	@Column(name = "bookingId", nullable = false, unique = true)
 	private String bookingId;
-	
-	@Column(name = "customerId",nullable = false)
+
+	@Column(name = "customerId", nullable = false)
 	private String customerId;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+	private Boolean isReturnTicket;
+	
+	@Column(name = "contactNumber", unique = true, nullable = false)
+	private Long contactNumber;
+	
+	@Column(name = "emailId", unique = true, nullable = false)
+	private String emailId;
+	
+	@Column(name = "status", nullable = false)
+	private BookingStatus status;
+	
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "booking_passenger", joinColumns = @JoinColumn(name = "bookingId"), inverseJoinColumns = @JoinColumn(name = "passengerId"))
 	private List<Passenger> passengerList;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
-	@JoinColumn(name = "commonColumnForBooking_Itinery")
-	private Itinerary itinerary;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "booking_Itinery", joinColumns = @JoinColumn(name = "bookingId"), inverseJoinColumns = @JoinColumn(name = "itineraryId"))
+	private List<Itinerary> itinerary;
+	
 
 }

@@ -25,10 +25,6 @@ public class Passenger {
 	@Column(name = "age", nullable = false)
 	private Integer age;
 	
-	@Column(name = "contactNumber", unique = true, nullable = false)
-	private Long contactNumber;
 	
-	@Column(name = "emailId", unique = true, nullable = false)
-	private String emailId;
 
 }

@@ -19,6 +19,6 @@ public class ItineraryDTO {
 	private Timestamp timeOfDeparture;
 	private Timestamp expectedArrivalTime;
 	private Integer travelDuration;
-	private Boolean isReturnTicket;
+	
 
 }

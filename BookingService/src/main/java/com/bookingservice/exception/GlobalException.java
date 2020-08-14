@@ -19,5 +19,10 @@ public class GlobalException {
 	public ResponseEntity<String> dataIntegrityExceptionHandler(DataIntegrityViolationException noUserFoundException) {
 		return new ResponseEntity<String>("data integrity violation", HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(DataNotFoundException.class)
+	public ResponseEntity<String> userNotFound(DataNotFoundException dataNotFoundException) {
+		return new ResponseEntity<String>("Return details Missing", HttpStatus.BAD_REQUEST);
+	}
 
 }
