@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -38,6 +39,11 @@ public class Booking {
 	
 	@Column(name = "status", nullable = false)
 	private BookingStatus status;
+	
+	
+	@Column(name = "busNumber", nullable = false)
+	private String busNumber;
+	
 	
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

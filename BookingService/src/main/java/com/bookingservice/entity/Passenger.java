@@ -14,6 +14,8 @@ public class Passenger {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@Column(name = "seatNumber", nullable = false)
 	private String seatNumber;
 	
 	@Column(name = "name", nullable = false)

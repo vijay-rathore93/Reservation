@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bookingservice.entity.Booking;
 import com.bookingservice.entity.Itinerary;
 import com.bookingservice.model.BookingDTO;
+import com.bookingservice.model.PassengerDTO;
 import com.bookingservice.model.ResponseDTO;
 import com.bookingservice.service.BookingService;
 import com.bookingservice.utility.ApplicationMessage;
@@ -28,6 +29,9 @@ public class BookingController {
 
 	@PostMapping("/booking")
 	public ResponseEntity<ResponseDTO<String>> createCustomer(@RequestBody BookingDTO booking) {
+
+		
+		
 		bookingService.bookingCreation(booking);
 
 		return new ResponseEntity<ResponseDTO<String>>(new ResponseDTO<String>(ApplicationMessage.JOURNEY_SET),
@@ -54,8 +58,5 @@ public class BookingController {
 		return new ResponseEntity<>((new ResponseDTO<>(bookingService.cancelTicket(bookingId))), HttpStatus.OK);
 
 	}
-	
-	
-	
 
 }

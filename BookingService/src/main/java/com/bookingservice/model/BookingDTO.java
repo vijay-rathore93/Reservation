@@ -26,5 +26,6 @@ public class BookingDTO {
 	private Integer travelDurationForReturn;
 	private Timestamp expectedArrivalTimeForReturn;
 	private String status;
+	private String busNumber;
 
 }

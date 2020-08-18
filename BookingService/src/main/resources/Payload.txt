@@ -1,0 +1,107 @@
+{
+    "travelContactNumber": 234234234,
+    "travelEmailId": "vijayrathor@gmail.com",
+    "emailId": "vijayrathor@gmail.com",
+    "buses": [
+        {
+            "busNumber": "KA01ES1923",
+            "seats": [
+                {
+                "isFemaleReserved": true,
+                "seatNumber": "LF1"
+            },{
+                "isFemaleReserved": true,
+                "seatNumber": "LF2"
+            },{
+                "isFemaleReserved": true,
+                "seatNumber": "UF3"
+            },{
+                "isFemaleReserved": true,
+                "seatNumber": "UF1"
+            },{
+                "isFemaleReserved": true,
+                "seatNumber": "UF2"
+            },{
+                
+                "seatNumber": "LM1"
+            },{
+                
+                "seatNumber": "LM2"
+            },{
+                
+                "seatNumber": "LM3"
+            },{
+                
+                "seatNumber": "UM1"
+            },{
+                
+                "seatNumber": "UM2"
+            },{
+                
+                "seatNumber": "UM3"
+            },{
+                
+                "seatNumber": "UM4"
+            }
+                
+            ],
+            "itinerary": {
+                "source": "Bangalore",
+                "destination": "Kolhapur",
+                "timeOfDeparture": "2011-10-02T18:34:05.123",
+                "expectedArrivalTime": "2011-10-02T18:50:05.123",
+                "travelDuration": 23
+            }
+        },
+        {
+            "busNumber": "KA01ES1734",
+             "seats": [
+                {
+                "isFemaleReserved": true,
+                "seatNumber": "LF1"
+            },{
+                "isFemaleReserved": true,
+                "seatNumber": "LF2"
+            },{
+                "isFemaleReserved": true,
+                "seatNumber": "UF3"
+            },{
+                "isFemaleReserved": true,
+                "seatNumber": "UF1"
+            },{
+                "isFemaleReserved": true,
+                "seatNumber": "UF2"
+            },{
+                
+                "seatNumber": "LM1"
+            },{
+                
+                "seatNumber": "LM2"
+            },{
+                
+                "seatNumber": "LM3"
+            },{
+                
+                "seatNumber": "UM1"
+            },{
+                
+                "seatNumber": "UM2"
+            },{
+                
+                "seatNumber": "UM3"
+            },{
+                
+                "seatNumber": "UM4"
+            }
+                
+            ],
+            "itinerary": {
+                "source": "Bangalore",
+                "destination": "Kolhapur",
+                "timeOfDeparture": "2011-10-02T18:34:05.123",
+                "expectedArrivalTime": "2011-10-02T18:50:05.123",
+                "travelDuration": 23
+            }
+        }
+    ]
+}
