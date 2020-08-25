@@ -31,10 +31,10 @@ public class Booking {
 
 	private Boolean isReturnTicket;
 	
-	@Column(name = "contactNumber", unique = true, nullable = false)
+	@Column(name = "contactNumber", nullable = false)
 	private Long contactNumber;
 	
-	@Column(name = "emailId", unique = true, nullable = false)
+	@Column(name = "emailId", nullable = false)
 	private String emailId;
 	
 	@Column(name = "status", nullable = false)

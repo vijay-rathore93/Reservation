@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.bookingservice.entity.Itinerary;
+import com.bookingservice.utility.BusCategory;
+import com.bookingservice.utility.BusStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,8 +24,9 @@ public class BusDTO {
 	
 	private String busNumber;
 
-	
-	private ItineraryDTO itineray;
+	private BusStatus busStatus;
+	private BusCategory busCategory;
+	private ItineraryDTO itinerary;
 
 	private List<SeatDTO> seats;
 	

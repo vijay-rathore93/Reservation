@@ -12,6 +12,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.bookingservice.utility.BusCategory;
+import com.bookingservice.utility.BusStatus;
+
 import lombok.Data;
 
 @Entity
@@ -23,13 +26,19 @@ public class Bus {
 	private Integer generateId;
 
 	private String busNumber;
+	
+	private BusStatus busStatus;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "bus_Itinery")
-	private Itinerary itineray;
+	private Itinerary itinerary;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "bus_seat", joinColumns = @JoinColumn(name = "busId"), inverseJoinColumns = @JoinColumn(name = "seatId"))
 	private List<Seat> seats;
+	
+	private BusCategory busCategory;
+	
+	
 
 }

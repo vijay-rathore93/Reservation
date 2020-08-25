@@ -24,5 +24,22 @@ public class GlobalException {
 	public ResponseEntity<String> userNotFound(DataNotFoundException dataNotFoundException) {
 		return new ResponseEntity<String>("Return details Missing", HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(NoSeatFoundException.class)
+	public ResponseEntity<String> noSeatFound(NoSeatFoundException noSeatFoundException) {
+		return new ResponseEntity<String>(noSeatFoundException.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(BookingException.class)
+	public ResponseEntity<String> noBookingException(BookingException bookingException) {
+		return new ResponseEntity<String>(bookingException.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(TravelException.class)
+	public ResponseEntity<String> noTravelException(TravelException travelException) {
+		return new ResponseEntity<String>(travelException.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	
+	
 
 }

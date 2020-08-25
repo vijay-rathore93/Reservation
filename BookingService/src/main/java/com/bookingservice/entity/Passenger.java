@@ -28,5 +28,4 @@ public class Passenger {
 	private Integer age;
 	
 	
-
 }
