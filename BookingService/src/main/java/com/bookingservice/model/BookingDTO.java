@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.bookingservice.utility.BusCategory;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +29,6 @@ public class BookingDTO {
 	private Timestamp expectedArrivalTimeForReturn;
 	private String status;
 	private String busNumber;
+	private BusCategory busCategory;
 
 }

@@ -11,7 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
+import com.bookingservice.utility.BusCategory;
 
 import lombok.Data;
 
@@ -44,7 +45,8 @@ public class Booking {
 	@Column(name = "busNumber", nullable = false)
 	private String busNumber;
 	
-	
+	@Column(name = "busCategory", nullable = false)
+	private BusCategory busCategory;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "booking_passenger", joinColumns = @JoinColumn(name = "bookingId"), inverseJoinColumns = @JoinColumn(name = "passengerId"))

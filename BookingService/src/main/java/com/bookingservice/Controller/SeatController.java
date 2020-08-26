@@ -24,10 +24,10 @@ public class SeatController {
 	public ResponseEntity<Void> makeSeatAvailable(@RequestHeader String busNumber) {
 
 		seatService.updateSeats(busNumber);
-		return null;
+		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
-
+ 
 
 	@GetMapping("/seats")
 	public ResponseEntity<List<Seat>> getSeats() {

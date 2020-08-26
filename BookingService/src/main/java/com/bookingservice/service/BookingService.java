@@ -12,13 +12,13 @@ import com.bookingservice.BusRepo;
 import com.bookingservice.SeatRepo;
 import com.bookingservice.entity.Booking;
 import com.bookingservice.entity.BookingStatus;
+import com.bookingservice.entity.Bus;
 import com.bookingservice.entity.Itinerary;
 import com.bookingservice.entity.Passenger;
 import com.bookingservice.entity.Seat;
 import com.bookingservice.exception.BookingException;
 import com.bookingservice.exception.NoUserFoundException;
 import com.bookingservice.model.BookingDTO;
-import com.bookingservice.model.PassengerDTO;
 import com.bookingservice.utility.ApplicationMessage;
 import com.bookingservice.utility.SeatGeneratorXX;
 
@@ -32,28 +32,25 @@ public class BookingService {
 	private final ModelMapper modelMapper;
 	private final BusRepo busRepo;
 	private final SeatRepo seatRepo;
-	
+
 	private final SeatGeneratorXX seatGeneratorXX;
+
 	public void bookingCreation(BookingDTO bookingDTO) {
 
 		Booking booking = modelMapper.map(bookingDTO, Booking.class);
-		
-		
-		///IMPORTANT: FOR LOOP for ACTUAL SEAT NUMBER
 
-		busRepo.findByBusNumber(bookingDTO.getBusNumber()).orElseThrow(() -> new BookingException("No such Bus Found"));
 
-		List<PassengerDTO> plist = bookingDTO.getPassengerList();
-		
-		
+
+		Bus bus = busRepo.findByBusNumber(bookingDTO.getBusNumber())
+				.orElseThrow(() -> new BookingException("No such Bus Found"));
+
+		if (!bus.getBusCategory().name().equalsIgnoreCase(bookingDTO.getBusCategory().name())) {
+			throw new BookingException("Bus Number and Category don't match");
+		}
+
 		List<Passenger> plistx = booking.getPassengerList();
-		
-		
-		
 
-		//plist = seatGenerator.seatGeneration(plist);
-		//plistx = seatGeneratorX.seatGeneration(plistx);
-		plistx = seatGeneratorXX.seatGeneration(plistx,booking.getBusNumber());
+		plistx = seatGeneratorXX.seatGeneration(plistx, booking.getBusNumber());
 		booking.setPassengerList(plistx);
 
 		booking.setBookingId(RandomStringUtils.random(16, true, true) + booking.getCustomerId());
@@ -79,7 +76,7 @@ public class BookingService {
 		List<Seat> list = new ArrayList<Seat>();
 
 		for (Passenger passenger : bookingCreated.getPassengerList()) {
-			Seat seat = seatRepo.findByActualSeatNumber(bookingCreated.getBusNumber()+"_"+passenger.getSeatNumber())
+			Seat seat = seatRepo.findByActualSeatNumber(bookingCreated.getBusNumber() + "_" + passenger.getSeatNumber())
 					.get();
 			seat.setIsOccupied(true);
 			list.add(seat);
