@@ -1,13 +1,16 @@
 package org.userservice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.userservice.entity.Customer;
 import org.userservice.exception.NoCustomerFoundException;
+import org.userservice.model.CustomerDTO;
 import org.userservice.repo.CustomerRepo;
 import org.userservice.utility.ApplicationMessage;
 
@@ -19,13 +22,26 @@ public class CustomerService {
 
 	private final CustomerRepo customerRepo;
 	private final EmailService ems;
+	private final ModelMapper modelMapper;
 
-	public List<Customer> getAllCustomers() {
-		return customerRepo.findAll();
+	public List<CustomerDTO> getAllCustomers() {
+		
+		List<Customer> customerList=customerRepo.findAll();
+		List<CustomerDTO> cdtoList=new ArrayList<CustomerDTO>();
+		
+		for(Customer c: customerList)
+		{
+			cdtoList.add(modelMapper.map(customerList,CustomerDTO.class));
+		}
+		
+		return cdtoList;
 	}
 
-	public Customer getCustomer(Long id) {
-		return customerRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
+	public CustomerDTO getCustomer(Long id) {
+
+		Customer cust = customerRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
+
+		return modelMapper.map(cust, CustomerDTO.class);
 	}
 
 	public String delCustomer(Long id) {
@@ -43,7 +59,7 @@ public class CustomerService {
 		customer.setAadharNumber(custmr.getAadharNumber());
 		customer.setContactNumber(custmr.getContactNumber());
 		customer.setEmailId(custmr.getEmailId());
-		customer.setName(custmr.getName());
+		customer.setCustName(custmr.getCustName());
 		customerRepo.save(customer);
 		return ApplicationMessage.UPDATE_MESSAGE;
 	}
@@ -59,12 +75,21 @@ public class CustomerService {
 
 	public String tokenVerifier(String token) {
 
-
-		Customer customer = customerRepo.findByToken(token).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
+		Customer customer = customerRepo.findByToken(token)
+				.orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
 		customer.setIsActive(true);
 		customer.setToken(null);
 		customerRepo.save(customer);
 		return ApplicationMessage.TOKEN_VERIFY;
+	}
+
+	public CustomerDTO getCustomerByName(String name) {
+
+		Customer cust = customerRepo.findByCustName(name)
+				.orElseThrow(() -> new NoCustomerFoundException("No Such Customer Found"));
+
+		return modelMapper.map(cust, CustomerDTO.class);
+
 	}
 
 }

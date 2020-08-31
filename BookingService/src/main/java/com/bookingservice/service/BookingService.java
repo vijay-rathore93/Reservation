@@ -39,8 +39,6 @@ public class BookingService {
 
 		Booking booking = modelMapper.map(bookingDTO, Booking.class);
 
-
-
 		Bus bus = busRepo.findByBusNumber(bookingDTO.getBusNumber())
 				.orElseThrow(() -> new BookingException("No such Bus Found"));
 
@@ -86,9 +84,16 @@ public class BookingService {
 
 	}
 
-	public List<Booking> getAllBookings() {
+	public List<BookingDTO> getAllBookings() {
 
-		return bookingRepo.findAll();
+		List<Booking> bookinglist = bookingRepo.findAll();
+		List<BookingDTO> bdtoList = new ArrayList<BookingDTO>();
+
+		for (Booking booking : bookinglist) {
+			bdtoList.add(modelMapper.map(booking, BookingDTO.class));
+		}
+
+		return bdtoList;
 	}
 
 	public BookingDTO getTicket(String bookingId) {
@@ -110,6 +115,14 @@ public class BookingService {
 		bookingRepo.save(booking);
 
 		return ApplicationMessage.CANCELLED_TICKET;
+	}
+
+	public BookingDTO bookingGetter(String name) {
+
+		Booking booking = bookingRepo.findByBookingId(name)
+				.orElseThrow(() -> new BookingException("No such booking found"));
+
+		return modelMapper.map(booking, BookingDTO.class);
 	}
 
 }

@@ -1,8 +1,10 @@
 package com.bookingservice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.bookingservice.BusRepo;
@@ -10,6 +12,7 @@ import com.bookingservice.SeatRepo;
 import com.bookingservice.entity.Bus;
 import com.bookingservice.entity.Seat;
 import com.bookingservice.exception.BookingException;
+import com.bookingservice.model.SeatDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +22,7 @@ public class SeatService {
 
 	private final SeatRepo seatRepo;
 	private final BusRepo busRepo;
+	private final ModelMapper modelMapper;
 
 	public void updateSeats(String busNumber) {
 		Bus bus = busRepo.findByBusNumber(busNumber).orElseThrow(() -> new BookingException("Bus not found"));
@@ -34,9 +38,17 @@ public class SeatService {
 		seatRepo.saveAll(seatList);
 	}
 
-	public List<Seat> displaySeats() {
+	public List<SeatDTO> displaySeats() {
 
-		return seatRepo.findAll();
+		List<Seat> seatList = seatRepo.findAll();
+
+		List<SeatDTO> seatDTOList = new ArrayList<SeatDTO>();
+
+		for (Seat seat : seatList) {
+			seatDTOList.add(modelMapper.map(seat, SeatDTO.class));
+		}
+
+		return seatDTOList;
 
 	}
 

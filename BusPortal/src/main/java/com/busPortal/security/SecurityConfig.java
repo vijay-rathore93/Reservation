@@ -26,6 +26,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
 				.successHandler(customSuccesHandler).failureHandler(customErrorHandler);
+		
+		
+		//http.authorizeRequests().antMatchers(method)
+		
 	}
+	
+	
+	
+	
 
 }

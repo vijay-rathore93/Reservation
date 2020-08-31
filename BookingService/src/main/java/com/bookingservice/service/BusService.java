@@ -1,12 +1,15 @@
 package com.bookingservice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.bookingservice.BusRepo;
 import com.bookingservice.entity.Bus;
 import com.bookingservice.exception.TravelException;
+import com.bookingservice.model.BusDTO;
 import com.bookingservice.utility.BusCategory;
 import com.bookingservice.utility.BusStatus;
 
@@ -17,15 +20,32 @@ import lombok.RequiredArgsConstructor;
 public class BusService {
 
 	private final BusRepo busRepo;
+	private final ModelMapper modelMapper;
 
-	public List<Bus> displayBuses() {
+	public List<BusDTO> displayBuses() {
 
-		return busRepo.findAll();
+		List<Bus> busList = busRepo.findAll();
+
+		List<BusDTO> busDTOList = new ArrayList<BusDTO>();
+
+		for (Bus bus : busList) {
+			busDTOList.add(modelMapper.map(bus, BusDTO.class));
+		}
+
+		return busDTOList;
 	}
 
-	public List<Bus> activeBuses(BusStatus busStatus) {
+	public List<BusDTO> activeBuses(BusStatus busStatus) {
 
-		return busRepo.findAllByBusStatus(busStatus);
+		List<Bus> busList = busRepo.findAllByBusStatus(busStatus);
+
+		List<BusDTO> busDTOList = new ArrayList<BusDTO>();
+
+		for (Bus bus : busList) {
+			busDTOList.add(modelMapper.map(bus, BusDTO.class));
+		}
+
+		return busDTOList;
 	}
 
 	public void updateStatus(BusStatus busStatus, String busNumber) {
@@ -39,9 +59,17 @@ public class BusService {
 
 	}
 
-	public List<Bus> busCategory(BusCategory busCategory) {
+	public List<BusDTO> busCategory(BusCategory busCategory) {
 
-		return busRepo.findAllByBusCategory(busCategory);
+		List<Bus> buslist = busRepo.findAllByBusCategory(busCategory);
+
+		List<BusDTO> busDTOList = new ArrayList<BusDTO>();
+
+		for (Bus bus : buslist) {
+			busDTOList.add(modelMapper.map(bus, BusDTO.class));
+		}
+
+		return busDTOList;
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookingservice.entity.Bus;
+import com.bookingservice.model.BusDTO;
 import com.bookingservice.service.BusService;
 import com.bookingservice.utility.BusCategory;
 import com.bookingservice.utility.BusStatus;
@@ -24,16 +25,16 @@ public class BusController {
 	private final BusService busService;
 
 	@GetMapping("/buses")
-	public ResponseEntity<List<Bus>> getBuses() {
-
+	public ResponseEntity<List<BusDTO>> getBuses() {
+		
 		return new ResponseEntity<>(busService.displayBuses(), HttpStatus.OK);
 
 	}
 
 	@GetMapping("/busStatus/{busStatus}")
-	public ResponseEntity<List<Bus>> getActiveSeats(@PathVariable BusStatus busStatus) {
-
-		return new ResponseEntity<List<Bus>>(busService.activeBuses(busStatus), HttpStatus.OK);
+	public ResponseEntity<List<BusDTO>> getActiveSeats(@PathVariable BusStatus busStatus) {
+		
+		return new ResponseEntity<>(busService.activeBuses(busStatus), HttpStatus.OK);
 
 	}
 
@@ -46,9 +47,9 @@ public class BusController {
 	}
 
 	@GetMapping("/busCategory/{busCategory}")
-	public ResponseEntity<List<Bus>> getActiveSeats(@PathVariable BusCategory busCategory) {
-
-		return new ResponseEntity<List<Bus>>(busService.busCategory(busCategory), HttpStatus.OK);
+	public ResponseEntity<List<BusDTO>> getActiveSeats(@PathVariable BusCategory busCategory) {
+		
+		return new ResponseEntity<>(busService.busCategory(busCategory), HttpStatus.OK);
 
 	}
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.userservice.entity.Customer;
+import org.userservice.model.CustomerDTO;
 import org.userservice.model.ResponseDTO;
 import org.userservice.service.CustomerService;
 
@@ -26,25 +27,32 @@ public class CustomerController {
 
 	private final CustomerService customerService;
 
-	
 	@PostMapping("/customer")
 	public ResponseEntity<ResponseDTO<String>> createCustomer(@RequestBody Customer customer, HttpServletRequest htsr) {
 
 		return new ResponseEntity<ResponseDTO<String>>(
-				new ResponseDTO<String>(customerService.customerCreation(customer,htsr)), HttpStatus.CREATED);
+				new ResponseDTO<String>(customerService.customerCreation(customer, htsr)), HttpStatus.CREATED);
 
 	}
-	
 
 	@GetMapping("/customers")
-	public ResponseEntity<List<Customer>> getCustomers() {
+	public ResponseEntity<List<CustomerDTO>> getCustomers() {
+
 		return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
 
 	}
 
 	@GetMapping("/customer/{id}")
-	public ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
+	public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id) {
+
 		return new ResponseEntity<>(customerService.getCustomer(id), HttpStatus.OK);
+
+	}
+
+	@GetMapping("/customer/{name}")
+	public ResponseEntity<CustomerDTO> getCustomerByName(@PathVariable String name) {
+
+		return new ResponseEntity<>(customerService.getCustomerByName(name), HttpStatus.OK);
 
 	}
 
@@ -61,12 +69,10 @@ public class CustomerController {
 		return new ResponseEntity<>(new ResponseDTO<>(customerService.updCustomer(id, customer)), HttpStatus.OK);
 
 	}
-	
+
 	@GetMapping("/confirmCustomer")
-	public ResponseEntity<ResponseDTO<String>> confirmCustomer(@RequestParam String token)
-	{
+	public ResponseEntity<ResponseDTO<String>> confirmCustomer(@RequestParam String token) {
 		return new ResponseEntity<>(new ResponseDTO<>(customerService.tokenVerifier(token)), HttpStatus.OK);
 	}
-	
-	
+
 }

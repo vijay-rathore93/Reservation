@@ -9,5 +9,6 @@ import com.bookingservice.entity.Booking;
 public interface BookingRepo extends JpaRepository<Booking, Long> {
 
 	public Optional<Booking> findByBookingId(String bookingId);
+	
 
 }

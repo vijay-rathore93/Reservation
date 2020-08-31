@@ -20,12 +20,9 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class TravelsController {
-	
-	
+
 	private final TravelService travelService;
-	
-	
-	
+
 	@PostMapping("/travels")
 	public ResponseEntity<ResponseDTO<String>> createTravel(@RequestBody TravelsDTO travels) {
 
@@ -35,17 +32,12 @@ public class TravelsController {
 				HttpStatus.CREATED);
 
 	}
-	
-	
-	
+
 	@GetMapping("/travel")
-	public ResponseEntity<List<Travels>> getCustomers() {
+	public ResponseEntity<List<TravelsDTO>> getCustomers() {
+
 		return new ResponseEntity<>(travelService.getAllTravels(), HttpStatus.OK);
 
 	}
-	
-	
-	
-	
 
 }

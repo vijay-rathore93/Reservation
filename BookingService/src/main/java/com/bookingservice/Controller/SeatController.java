@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bookingservice.entity.Seat;
+import com.bookingservice.model.SeatDTO;
 import com.bookingservice.service.SeatService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,17 +27,12 @@ public class SeatController {
 		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
- 
 
 	@GetMapping("/seats")
-	public ResponseEntity<List<Seat>> getSeats() {
+	public ResponseEntity<List<SeatDTO>> getSeats() {
 
-		
-		return new ResponseEntity<>(seatService.displaySeats(),HttpStatus.OK);
+		return new ResponseEntity<>(seatService.displaySeats(), HttpStatus.OK);
 
 	}
 
-	
-	
-	
 }
