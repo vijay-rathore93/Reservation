@@ -1,21 +1,14 @@
-package com.busPortal.entity;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+package com.busPortal.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-@Entity
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class RoleDTO {
 	
-	@Id
-	@GeneratedValue
 	private Integer roleId;
 	private String roleName;
 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout}">
+<head>
+<title>Upload video</title>
+
+</head>
+<body>
+
+
+	<div layout:fragment="content">
+		<section class="my-5">
+			<div class="container">
+
+				<div class="row" style="margin-top: 20px">
+					<div
+						class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+						<form method="post" action="/saveVideo" th:object="${video}"
+							enctype="multipart/form-data">
+							<fieldset>
+								<h1>Upload video</h1>
+
+
+
+								<div class="form-group">
+									<input type="text" id="videoDescription"
+										th:field="*{videoDescription}" class="form-control input-lg"
+										placeholder="videoDescription" required="">
+
+
+
+								</div>
+								<div class="form-group">
+
+
+									<input type="file" id="videoDescription"
+										th:field="*{uploadVideo}" class="form-control input-lg"
+										placeholder="" required>
+								</div>
+
+								<div class="row">
+									<div
+										class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+										<input type="submit" class="btn btn-lg btn-primary btn-block"
+											value="Upload" />
+									</div>
+
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</section>
+	</div>
+	<!-- <div th:replace="fragments/footer :: footer" /> -->
+
+</body>
+</html>

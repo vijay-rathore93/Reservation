@@ -12,6 +12,7 @@ import com.bookingservice.SeatRepo;
 import com.bookingservice.entity.Bus;
 import com.bookingservice.entity.Seat;
 import com.bookingservice.exception.BookingException;
+import com.bookingservice.exception.NoSeatFoundException;
 import com.bookingservice.model.SeatDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,14 @@ public class SeatService {
 
 		return seatDTOList;
 
+	}
+
+	public SeatDTO displaySeat(String seatNumber) {
+		
+		Seat seat=seatRepo.findByActualSeatNumber(seatNumber).orElseThrow(() -> new NoSeatFoundException("Seat not found"));
+		
+		
+		return modelMapper.map(seat, SeatDTO.class);
 	}
 
 }

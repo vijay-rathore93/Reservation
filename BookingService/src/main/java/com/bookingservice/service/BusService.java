@@ -72,4 +72,13 @@ public class BusService {
 		return busDTOList;
 	}
 
+	public BusDTO displayBus(String busNumber) {
+		
+		Bus bus=busRepo.findByBusNumber(busNumber).orElseThrow(() -> new TravelException("Bus not found"));
+		
+		return modelMapper.map(bus, BusDTO.class);
+	}
+
+
+
 }

@@ -50,13 +50,13 @@ public class BookingController {
 	}
 
 	@GetMapping("/ticket")
-	public ResponseEntity<BookingDTO> createTicket(@RequestHeader String bookingId) {
+	public ResponseEntity<BookingDTO> getTicket(@RequestHeader String bookingId) {
 
 		return new ResponseEntity<BookingDTO>(bookingService.getTicket(bookingId), HttpStatus.OK);
 
 	}
 
-	@PatchMapping("/ticket")
+	@GetMapping("/cancelTicket")
 	public ResponseEntity<ResponseDTO<String>> cancelTicket(@RequestHeader String bookingId) {
 
 		return new ResponseEntity<>((new ResponseDTO<>(bookingService.cancelTicket(bookingId))), HttpStatus.OK);

@@ -54,7 +54,7 @@ public class CustomerService {
 
 	}
 
-	public String updCustomer(Long id, Customer custmr) {
+	public String updCustomer(Long id, CustomerDTO custmr) {
 		Customer customer = customerRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
 		customer.setAadharNumber(custmr.getAadharNumber());
 		customer.setContactNumber(custmr.getContactNumber());
@@ -64,12 +64,12 @@ public class CustomerService {
 		return ApplicationMessage.UPDATE_MESSAGE;
 	}
 
-	public String customerCreation(Customer customer, HttpServletRequest htsr) {
+	public String customerCreation(CustomerDTO customer, HttpServletRequest htsr) {
 		String token = UUID.randomUUID().toString();
 		customer.setToken(token);
 		customer.setIsActive(false);
 		ems.sendMail(customer.getEmailId(), htsr, token);
-		customerRepo.save(customer);
+		customerRepo.save(modelMapper.map(customer, Customer.class));
 		return ApplicationMessage.CREATE_MESSAGE;
 	}
 

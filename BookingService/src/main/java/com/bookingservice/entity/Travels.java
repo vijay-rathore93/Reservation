@@ -23,8 +23,7 @@ public class Travels {
 	@GeneratedValue
 	private Integer generatedId;
 
-	private Long travelContactNumber;
-	private String travelEmailId;
+	
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "travel_bus", joinColumns = @JoinColumn(name = "travelId"), inverseJoinColumns = @JoinColumn(name = "busId"))
@@ -32,8 +31,6 @@ public class Travels {
 	
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "travel_role", joinColumns = @JoinColumn(name = "travel_Id"), inverseJoinColumns = @JoinColumn(name = "roleId"))
-	private Set<Role> roleList;
+	
 
 }

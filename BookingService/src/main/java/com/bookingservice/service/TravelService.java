@@ -10,6 +10,7 @@ import com.bookingservice.TravelsRepo;
 import com.bookingservice.entity.Bus;
 import com.bookingservice.entity.Seat;
 import com.bookingservice.entity.Travels;
+import com.bookingservice.exception.BookingException;
 import com.bookingservice.exception.TravelException;
 import com.bookingservice.model.TravelsDTO;
 import com.bookingservice.utility.BusStatus;
@@ -57,6 +58,14 @@ public class TravelService {
 		}
 
 		return travelsDTOList;
+	}
+
+	public TravelsDTO getTravel(String travelContactNumber) {
+
+		Travels travels = travelsRepo.findByTravelContactNumber(travelContactNumber)
+				.orElseThrow(() -> new BookingException("No such number found"));
+
+		return modelMapper.map(travels, TravelsDTO.class);
 	}
 
 }

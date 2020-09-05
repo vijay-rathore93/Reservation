@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.busPortal.entity.Customer;
+import com.busPortal.model.CustomerDTO;
 
 public class CustomUserDetails implements UserDetails{
 	
@@ -17,7 +17,7 @@ public class CustomUserDetails implements UserDetails{
 	
 	
 
-	public CustomUserDetails(Customer customer, Set<SimpleGrantedAuthority> simpleGrantedAuthority) {
+	public CustomUserDetails(CustomerDTO customer, Set<SimpleGrantedAuthority> simpleGrantedAuthority) {
 		
 		this.userName = customer.getCustName();
 		this.password = customer.getCustPassword();
