@@ -23,14 +23,11 @@ public class Travels {
 	@GeneratedValue
 	private Integer generatedId;
 
-	
+	private String travelContactNumber;
+	private String travelEmailId;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "travel_bus", joinColumns = @JoinColumn(name = "travelId"), inverseJoinColumns = @JoinColumn(name = "busId"))
 	private List<Bus> buses;
-	
-	
-	
-	
 
 }

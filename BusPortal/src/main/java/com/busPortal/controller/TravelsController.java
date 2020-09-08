@@ -1,4 +1,4 @@
-package org.userservice.controller;
+package com.busPortal.controller;
 
 public class TravelsController {
 

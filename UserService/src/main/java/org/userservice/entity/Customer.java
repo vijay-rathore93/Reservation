@@ -22,6 +22,8 @@ public class Customer {
 	private Long customerId;
 
 	private String custName;
+	
+	private String password;
 
 	private String emailId;
 

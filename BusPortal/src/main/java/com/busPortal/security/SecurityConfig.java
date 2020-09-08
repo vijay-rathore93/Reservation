@@ -20,10 +20,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final CustomErrorHandler customErrorHandler;
 	private final CustomSuccesHandler customSuccesHandler;
 
-	private String[] requestURI = { "/**", "/registerUser", "/createUserUI", "/confirm", "/forgotPassword", "/sendMail",
-			"/resetPassword"
+	private String[] allowedRequestURI = { "/**", "/customer", "/confirmCustomer" };
 
-	};
+	private String[] travelsRoleRequestURIs = { "/travels/**", "travel", "/seat/**", "/seats", "/buses", "/bus",
+			"/busStatus/**", "/busCategory/**" };
+	private String[] passengerRoleRequestURIs = { "/bookings", "/booking/**", "/ticket", "/cancelTicket",
+			"/customers/**", "/customer/**", "/confirmCusomer/**" };
 
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
@@ -33,20 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 
 		http.csrf().disable();
-		http.authorizeRequests().antMatchers(requestURI).permitAll();
-		http.authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
-				.successHandler(customSuccesHandler).failureHandler(customErrorHandler);
-
-		http.authorizeRequests().antMatchers("/travels/**", "travel")
+		http.authorizeRequests().antMatchers(allowedRequestURI).permitAll();
+		http.authorizeRequests().antMatchers(travelsRoleRequestURIs)
 				.hasAnyRole(ApplicationUserRole.TRAVELS.name(), ApplicationUserRole.ADMIN.name())
-				.antMatchers("/seat/**", "/seats")
-				.hasAnyRole(ApplicationUserRole.TRAVELS.name(), ApplicationUserRole.ADMIN.name())
-				.antMatchers("/buses", "/bus", "/busStatus/**", "/busCategory/**")
-				.hasAnyRole(ApplicationUserRole.TRAVELS.name(), ApplicationUserRole.ADMIN.name())
-				.antMatchers("/bookings", "/booking/**", "/ticket", "/cancelTicket")
-				.hasAnyRole(ApplicationUserRole.PASSENGER.name(), ApplicationUserRole.ADMIN.name())
-				.antMatchers("/customers/**", "/customer/**", "/confirmCusomer/**")
+				.antMatchers(passengerRoleRequestURIs)
 				.hasAnyRole(ApplicationUserRole.PASSENGER.name(), ApplicationUserRole.ADMIN.name());
+
+		http.authorizeRequests().anyRequest().authenticated().and().httpBasic().and().formLogin().loginPage("/login")
+				.successHandler(customSuccesHandler).failureHandler(customErrorHandler).permitAll();
 
 	}
 

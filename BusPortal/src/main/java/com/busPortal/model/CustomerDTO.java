@@ -16,6 +16,8 @@ public class CustomerDTO {
 	private Long customerId;
 
 	private String custName;
+	
+	private String password;
 
 	private String emailId;
 

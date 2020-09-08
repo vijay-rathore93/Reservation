@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,9 +33,12 @@ public class BusPortalCustomerService {
 	private String customersURL;
 
 	private final RestTemplate restTemplate;
+	private final PasswordEncoder passwordEncoder;
+	
 
 	public String customerCreation(CustomerDTO customerDTO, HttpServletRequest htsr) {
 
+		customerDTO.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
 		HttpHeaders httpHeader = new HttpHeaders();
 		HttpEntity<CustomerDTO> httpEntity = new HttpEntity<CustomerDTO>(customerDTO, httpHeader);
 
