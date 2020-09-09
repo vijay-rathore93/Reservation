@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.bookingservice.BusRepo;
-import com.bookingservice.SeatRepo;
 import com.bookingservice.entity.Bus;
 import com.bookingservice.entity.Seat;
 import com.bookingservice.exception.BookingException;
 import com.bookingservice.exception.NoSeatFoundException;
 import com.bookingservice.model.SeatDTO;
+import com.bookingservice.repo.BusRepo;
+import com.bookingservice.repo.SeatRepo;
 
 import lombok.RequiredArgsConstructor;
 

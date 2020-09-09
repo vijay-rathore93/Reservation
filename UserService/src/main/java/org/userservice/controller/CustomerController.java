@@ -42,14 +42,14 @@ public class CustomerController {
 
 	}
 
-	@GetMapping("/customer/{id}")
+	@GetMapping("/customerById/{id}")
 	public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id) {
 
 		return new ResponseEntity<>(customerService.getCustomer(id), HttpStatus.OK);
 
 	}
 
-	@GetMapping("/customer/{name}")
+	@GetMapping("/customerByName/{name}")
 	public ResponseEntity<CustomerDTO> getCustomerByName(@PathVariable String name) {
 
 		return new ResponseEntity<>(customerService.getCustomerByName(name), HttpStatus.OK);

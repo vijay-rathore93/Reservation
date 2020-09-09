@@ -39,7 +39,7 @@ public class BusController {
 	}
 
 	@GetMapping("/busStatus/{busStatus}")
-	public ResponseEntity<List<BusDTO>> getActiveSeats(@PathVariable BusStatus busStatus) {
+	public ResponseEntity<List<BusDTO>> getActiveSeats(@PathVariable String busStatus) {
 		
 		return new ResponseEntity<>(busService.activeBuses(busStatus), HttpStatus.OK);
 

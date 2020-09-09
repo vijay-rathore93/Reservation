@@ -6,13 +6,13 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.bookingservice.TravelsRepo;
 import com.bookingservice.entity.Bus;
 import com.bookingservice.entity.Seat;
 import com.bookingservice.entity.Travels;
 import com.bookingservice.exception.BookingException;
 import com.bookingservice.exception.TravelException;
 import com.bookingservice.model.TravelsDTO;
+import com.bookingservice.repo.TravelsRepo;
 import com.bookingservice.utility.BusStatus;
 
 import lombok.RequiredArgsConstructor;

@@ -7,9 +7,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.bookingservice.BookingRepo;
-import com.bookingservice.BusRepo;
-import com.bookingservice.SeatRepo;
 import com.bookingservice.entity.Booking;
 import com.bookingservice.entity.BookingStatus;
 import com.bookingservice.entity.Bus;
@@ -19,6 +16,9 @@ import com.bookingservice.entity.Seat;
 import com.bookingservice.exception.BookingException;
 import com.bookingservice.exception.NoUserFoundException;
 import com.bookingservice.model.BookingDTO;
+import com.bookingservice.repo.BookingRepo;
+import com.bookingservice.repo.BusRepo;
+import com.bookingservice.repo.SeatRepo;
 import com.bookingservice.utility.ApplicationMessage;
 import com.bookingservice.utility.SeatGeneratorXX;
 

@@ -6,10 +6,10 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.bookingservice.BusRepo;
 import com.bookingservice.entity.Bus;
 import com.bookingservice.exception.TravelException;
 import com.bookingservice.model.BusDTO;
+import com.bookingservice.repo.BusRepo;
 import com.bookingservice.utility.BusCategory;
 import com.bookingservice.utility.BusStatus;
 
@@ -35,9 +35,16 @@ public class BusService {
 		return busDTOList;
 	}
 
-	public List<BusDTO> activeBuses(BusStatus busStatus) {
+	public List<BusDTO> activeBuses(String busStatus) {
+		
+		
 
-		List<Bus> busList = busRepo.findAllByBusStatus(busStatus);
+		List<Bus> busList = busRepo.findAllByBusStatus(BusStatus.valueOf(busStatus));
+		
+//		if(busList.isEmpty())
+//		{
+//			throw new TravelException("Bus not found");
+//		}
 
 		List<BusDTO> busDTOList = new ArrayList<BusDTO>();
 

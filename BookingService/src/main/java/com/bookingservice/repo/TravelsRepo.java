@@ -1,4 +1,4 @@
-package com.bookingservice;
+package com.bookingservice.repo;
 
 import java.util.Optional;
 

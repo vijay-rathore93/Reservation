@@ -31,7 +31,7 @@ public class CustomerService {
 		
 		for(Customer c: customerList)
 		{
-			cdtoList.add(modelMapper.map(customerList,CustomerDTO.class));
+			cdtoList.add(modelMapper.map(c,CustomerDTO.class));
 		}
 		
 		return cdtoList;

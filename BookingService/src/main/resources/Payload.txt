@@ -5,6 +5,8 @@
     "buses": [
         {
             "busNumber": "KA01ES1923",
+            "busCategory":"VOLVO",
+            
             "seats": [
                 {
                 "isFemaleReserved": true,
@@ -55,6 +57,7 @@
         },
         {
             "busNumber": "KA01ES1734",
+            "busCategory":"NON_VOLVO",
              "seats": [
                 {
                 "isFemaleReserved": true,
@@ -105,3 +108,61 @@
         }
     ]
 }
+
+
+
+
+
+{
+    "custName": "MegalosaurusY",
+    "password": "vineetPassword",
+    "emailId": "VineetKaddu@gmail.com",
+    "aadharNumber": "ADAD214332",
+    "contactNumber": 32486322123,
+    "roleList": [
+        {
+            "roleName": "ADMIN"
+        }
+    ]
+}
+
+
+{
+    "customerId": "sdfsdfsdf",
+    "isReturnTicket":false,
+    "busNumber":"KA01ES1923",
+    "busCategory":"VOLVO",
+    "status":false,
+    "contactNumber": 3248632243223,
+    "emailId":"VineetKaddu@gmail.com",
+    "passengerList": [
+        {
+            "seatNumber": "UM1",
+            "name":"MegalosaurusY",
+            "gender":"MALE",
+            "age":24
+        }
+    ],
+     "itinerary": [
+        {
+            "source": "UM1",
+            "destination":"MegalosaurusY",
+            "timeOfDeparture":"2011-10-02T18:48:05.123",
+            "expectedArrivalTime":"2011-10-02T18:48:05.123",
+            "travelDuration":8
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

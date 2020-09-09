@@ -40,6 +40,9 @@ public class GlobalException {
 		return new ResponseEntity<String>(travelException.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 	
-	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<String> noTravelException(Exception exception) {
+		return new ResponseEntity<String>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 }

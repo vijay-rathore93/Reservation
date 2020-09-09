@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.bookingservice.BusRepo;
 import com.bookingservice.entity.Passenger;
 import com.bookingservice.entity.Seat;
 import com.bookingservice.exception.NoSeatFoundException;
+import com.bookingservice.repo.BusRepo;
 
 import lombok.RequiredArgsConstructor;
 
