@@ -38,6 +38,8 @@ public class BusService {
 	public List<BusDTO> activeBuses(String busStatus) {
 		
 		
+		
+		Bus busx=busRepo.findByBusStatus(BusStatus.valueOf(busStatus)).orElseThrow(() -> new TravelException("Bus not found"));
 
 		List<Bus> busList = busRepo.findAllByBusStatus(BusStatus.valueOf(busStatus));
 		

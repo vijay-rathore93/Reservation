@@ -16,5 +16,6 @@ public interface BusRepo extends JpaRepository<Bus, Integer> {
 	List<Bus> findAllByBusStatus(BusStatus busStatus);
 	List<Bus> findAllByBusCategory(BusCategory busCategory);
 	
-	
+	Optional<Bus> findByBusStatus(BusStatus busStatus);
+	Optional<Bus> findByBusCategory(BusStatus busStatus);
 }

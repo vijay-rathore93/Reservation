@@ -110,6 +110,20 @@ public class BookingService {
 		Booking booking = bookingRepo.findByBookingId(bookingId)
 				.orElseThrow(() -> new NoUserFoundException("No Data Found"));
 
+		List<Passenger> passengerList = booking.getPassengerList();
+
+		String busNumber = booking.getBusNumber();
+
+		Bus bus = busRepo.findByBusNumber(busNumber).get();
+
+		for (Passenger p : passengerList) {
+			Seat seat = seatRepo.findByActualSeatNumber(busNumber + "_" + p.getSeatNumber()).get();
+
+			seat.setIsOccupied(false);
+
+			seatRepo.save(seat);
+		}
+
 		booking.setStatus(BookingStatus.CANCELLED);
 
 		bookingRepo.save(booking);
