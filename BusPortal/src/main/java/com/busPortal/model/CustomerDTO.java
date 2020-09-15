@@ -14,7 +14,9 @@ public class CustomerDTO {
 	
 	
 	private Long customerId;
-
+	
+    private String userName;
+	
 	private String custName;
 	
 	private String password;
@@ -25,7 +27,7 @@ public class CustomerDTO {
 	
 	private Long contactNumber;
 	
-	private String custPassword;
+	//private String custPassword;
 	
 	private String token;
 	

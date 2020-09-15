@@ -10,11 +10,15 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.busPortal.exception.CustomerException;
 import com.busPortal.model.CustomerDTO;
+import com.busPortal.model.ResponseDTO;
 import com.busPortal.utility.ApplicationMessages;
 
 import lombok.RequiredArgsConstructor;
@@ -32,9 +36,14 @@ public class BusPortalCustomerService {
 	@Value("${CUSTOMERS_SERVICE}")
 	private String customersURL;
 
+	@Value("${CUSTOMER_SERVICE_BY_ID}")
+	private String customersByIdURL;
+
+	@Value("${CUSTOMER_SERVICE_BY_NAME}")
+	private String customersByNameURL;
+
 	private final RestTemplate restTemplate;
 	private final PasswordEncoder passwordEncoder;
-	
 
 	public String customerCreation(CustomerDTO customerDTO, HttpServletRequest htsr) {
 
@@ -58,7 +67,11 @@ public class BusPortalCustomerService {
 
 	public CustomerDTO getCustomerByName(String name) {
 
-		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerURL + name, CustomerDTO.class);
+		if (!SecurityContextHolder.getContext().getAuthentication().getName().equals(name)) {
+			throw new CustomerException("Sorry! Privacy is a Thing, bro!");
+		}
+
+		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customersByNameURL + name, CustomerDTO.class);
 
 		return rec.getBody();
 
@@ -66,13 +79,22 @@ public class BusPortalCustomerService {
 
 	public CustomerDTO getCustomer(Long id) {
 
-		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerURL + id, CustomerDTO.class);
+		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
+			throw new CustomerException("Sorry! Privacy is a Thing, bro!");
+		}
+
+		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customersByIdURL + id, CustomerDTO.class);
 
 		return rec.getBody();
 
 	}
 
 	public String delCustomer(Long id) {
+
+		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
+			throw new CustomerException("Sorry! Can't delete Another Customer!");
+		}
+
 		restTemplate.delete(customerURL + id, Void.class);
 
 		return ApplicationMessages.CUSTOMER_DELETED;
@@ -89,12 +111,22 @@ public class BusPortalCustomerService {
 
 	public String updCustomer(Long id, CustomerDTO customerDTO) {
 
+		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
+			throw new CustomerException("Sorry! Can't delete Another Customer!");
+		}
+
+		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+		requestFactory.setConnectTimeout(2000);
+		requestFactory.setReadTimeout(2000);
+
+		restTemplate.setRequestFactory(requestFactory);
+
 		HttpEntity<CustomerDTO> httpEntity = new HttpEntity<>(customerDTO);
 
-		ResponseEntity<String> response = restTemplate.exchange(customerURL + id, HttpMethod.PATCH, httpEntity,
-				String.class);
+		ResponseEntity<ResponseDTO> response = restTemplate.exchange(customerURL + id, HttpMethod.PATCH, httpEntity,
+				ResponseDTO.class);
 
-		return response.getBody();
+		return response.getBody().getMessage().toString();
 
 	}
 

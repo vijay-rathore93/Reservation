@@ -10,7 +10,7 @@ public interface CustomerRepo extends JpaRepository<Customer, Long> {
 	
 	public Optional<Customer> findByToken(String msg);
 
-	public Optional<Customer> findByCustName(String name);
+	public Optional<Customer> findByUserName(String name);
 	
 	
 	public Optional<Customer> findByCustomerId(Long id);

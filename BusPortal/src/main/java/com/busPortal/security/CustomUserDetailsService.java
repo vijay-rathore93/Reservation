@@ -24,14 +24,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private final RestTemplate restTemplate;
 	
 	
-	@Value("${CUSTOMER_SERVICE}")
-	private String customerURL;
+
+	
+	@Value("${CUSTOMER_SERVICE_BY_NAME}")
+	private String customerByNameURL;
+	
 	
 
 	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 
-		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerURL + name,
+		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByNameURL + name,
 				CustomerDTO.class);
 
 		return new CustomUserDetails(rec.getBody(), getSimpleGrantedAuthority(rec.getBody().getRoleList()));

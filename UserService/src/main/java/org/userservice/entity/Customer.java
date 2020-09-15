@@ -3,6 +3,7 @@ package org.userservice.entity;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,22 +22,23 @@ public class Customer {
 	@GeneratedValue
 	private Long customerId;
 
+	@Column(name = "userName", nullable = false, unique = true)
+	private String userName;
+
 	private String custName;
-	
+
 	private String password;
 
 	private String emailId;
 
 	private String aadharNumber;
-	
-	private Long contactNumber;
-	
-	private String token;
-	
-	private Boolean isActive;
-	
 
-	
+	private Long contactNumber;
+
+	private String token;
+
+	private Boolean isActive;
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "customer_role", joinColumns = @JoinColumn(name = "customer_Id"), inverseJoinColumns = @JoinColumn(name = "roleId"))
 	private Set<Role> roleList;

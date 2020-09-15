@@ -31,9 +31,12 @@ public class BusPortalCustomerController {
 	
 	private final BusPortalCustomerService busPortalCustomerService;
 
-	@PostMapping("/customer")
+	@PostMapping("/createCustomer")
 	public ResponseEntity<ResponseDTO<String>> createCustomer(@RequestBody CustomerDTO customer, HttpServletRequest htsr) {
 
+		
+		
+		
 		return new ResponseEntity<ResponseDTO<String>>(
 				new ResponseDTO<String>(busPortalCustomerService.customerCreation(customer, htsr)), HttpStatus.CREATED);
 
@@ -46,14 +49,14 @@ public class BusPortalCustomerController {
 
 	}
 
-	@GetMapping("/customer/{id}")
+	@GetMapping("/customerById/{id}")
 	public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id) {
 
 		return new ResponseEntity<>(busPortalCustomerService.getCustomer(id), HttpStatus.OK);
 
 	}
 
-	@GetMapping("/customer/{name}")
+	@GetMapping("/customerByName/{name}")
 	public ResponseEntity<CustomerDTO> getCustomerByName(@PathVariable String name) {
 
 		return new ResponseEntity<>(busPortalCustomerService.getCustomerByName(name), HttpStatus.OK);

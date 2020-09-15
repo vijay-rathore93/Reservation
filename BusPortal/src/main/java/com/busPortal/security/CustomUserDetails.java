@@ -19,8 +19,8 @@ public class CustomUserDetails implements UserDetails{
 
 	public CustomUserDetails(CustomerDTO customer, Set<SimpleGrantedAuthority> simpleGrantedAuthority) {
 		
-		this.userName = customer.getCustName();
-		this.password = customer.getCustPassword();
+		this.userName = customer.getUserName();
+		this.password = customer.getPassword();
 		this.authorities = simpleGrantedAuthority;
 	}
 

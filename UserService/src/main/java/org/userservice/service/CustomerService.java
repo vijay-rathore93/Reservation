@@ -24,6 +24,8 @@ public class CustomerService {
 	private final EmailService ems;
 	private final ModelMapper modelMapper;
 
+	
+	
 	public List<CustomerDTO> getAllCustomers() {
 		
 		List<Customer> customerList=customerRepo.findAll();
@@ -69,6 +71,10 @@ public class CustomerService {
 		customer.setToken(token);
 		customer.setIsActive(false);
 		ems.sendMail(customer.getEmailId(), htsr, token);
+		
+		//customer.setPassword(passwordE);
+		
+		
 		customerRepo.save(modelMapper.map(customer, Customer.class));
 		return ApplicationMessage.CREATE_MESSAGE;
 	}
@@ -85,7 +91,10 @@ public class CustomerService {
 
 	public CustomerDTO getCustomerByName(String name) {
 
-		Customer cust = customerRepo.findByCustName(name)
+		
+		
+		
+		Customer cust = customerRepo.findByUserName(name)
 				.orElseThrow(() -> new NoCustomerFoundException("No Such Customer Found"));
 
 		return modelMapper.map(cust, CustomerDTO.class);
