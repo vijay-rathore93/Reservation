@@ -51,9 +51,9 @@ public class BusPortalCustomerService {
 		HttpHeaders httpHeader = new HttpHeaders();
 		HttpEntity<CustomerDTO> httpEntity = new HttpEntity<CustomerDTO>(customerDTO, httpHeader);
 
-		ResponseEntity<CustomerDTO> rec = restTemplate.postForEntity(customerURL, httpEntity, CustomerDTO.class);
+		ResponseEntity<ResponseDTO> rec = restTemplate.postForEntity(customerURL, httpEntity, ResponseDTO.class);
 
-		return ApplicationMessages.CREATE_MESSAGE;
+		return rec.getBody().getMessage().toString();
 
 	}
 
