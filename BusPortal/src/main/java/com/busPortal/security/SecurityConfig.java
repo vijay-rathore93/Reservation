@@ -23,7 +23,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private String[] allowedRequestURI = { "/createCustomer", "/confirmCustomer" };
 
 	private String[] travelsRoleRequestURIs = { "/travels/**", "travel", "/seat/**", "/seats", "/buses", "/bus",
-			"/busStatus/**", "/busCategory/**","/customers/**" };
+			"/busStatus/**", "/busCategory/**","/customers/**","/customerByName","/customerById"};
+	
+	private String[] adminRoleRequestURIs = {"travel", "/seat/**", "/updateSeats", "/buses", "/bus",
+			"/busStatus/**", "/busCategory/**","/customers/**","/customerByName","/customerById"};
+	
+	
 	private String[] passengerRoleRequestURIs = { "/bookings", "/booking/**", "/ticket", "/cancelTicket",
 			"/customer/**"};
 
@@ -39,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers(travelsRoleRequestURIs)
 				.hasAnyRole(ApplicationUserRole.TRAVELS.name(), ApplicationUserRole.ADMIN.name())
 				.antMatchers(passengerRoleRequestURIs)
-				.hasAnyRole(ApplicationUserRole.PASSENGER.name(), ApplicationUserRole.ADMIN.name());
+				.hasAnyRole(ApplicationUserRole.PASSENGER.name(), ApplicationUserRole.ADMIN.name(),ApplicationUserRole.TRAVELS.name());
 
 		http.authorizeRequests().anyRequest().authenticated().and().httpBasic().and().formLogin().loginPage("/login")
 				.successHandler(customSuccesHandler).failureHandler(customErrorHandler).permitAll();

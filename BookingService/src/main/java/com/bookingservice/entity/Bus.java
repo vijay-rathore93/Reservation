@@ -3,6 +3,7 @@ package com.bookingservice.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,8 @@ public class Bus {
 	@GeneratedValue
 	private Integer generateId;
 
+	
+	@Column(name = "busNumber", nullable = false,unique=true)
 	private String busNumber;
 	
 	private BusStatus busStatus;

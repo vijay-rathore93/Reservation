@@ -34,13 +34,23 @@ public class BookingController {
 				HttpStatus.CREATED);
 
 	}
+	
+	
+	
+	@GetMapping("/booking/{customerId}")
+	public ResponseEntity<BookingDTO> getByBookingId(@PathVariable String bookingId) {
 
-	@GetMapping("/booking/{name}")
-	public ResponseEntity<BookingDTO> createCustomerName(@PathVariable String name) {
-
-		return new ResponseEntity<>(bookingService.bookingGetter(name), HttpStatus.OK);
+		return new ResponseEntity<>(bookingService.getByBookingId(bookingId), HttpStatus.OK);
 
 	}
+	
+	@GetMapping("/booking/{customerId}")
+	public ResponseEntity<BookingDTO> findByCustomerId(@PathVariable Long customerId) {
+
+		return new ResponseEntity<>(bookingService.getByCustomerId(customerId), HttpStatus.OK);
+
+	}
+	
 
 	@GetMapping("/bookings")
 	public ResponseEntity<List<BookingDTO>> getCustomers() {

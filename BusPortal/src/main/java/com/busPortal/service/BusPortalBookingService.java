@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,16 +25,27 @@ public class BusPortalBookingService {
 
 	@Value("${BOOKING_SERVICE}")
 	private String bookingURL;
+	
+	@Value("${BOOKING_SERVICE_PLURAL}")
+	private String bookingsURL;
+	
+	@Value("${BOOKING_SERVICE_1}")
+	private String bookingURL1;
 
 	@Value("${BOOKING_SERVICE_TICKET}")
 	private String ticketURL;
 
+	private final BusPortalCustomerService busPortalCustomerService;
+
 	public BookingDTO bookingCreation(BookingDTO bookingDTO) {
+
+		bookingDTO.setCustomerId(busPortalCustomerService
+				.getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId());
 
 		HttpHeaders httpHeader = new HttpHeaders();
 		HttpEntity<BookingDTO> hhtEntity = new HttpEntity<BookingDTO>(bookingDTO, httpHeader);
 
-		ResponseEntity<BookingDTO> rec = restTemplate.postForEntity(bookingURL, hhtEntity, BookingDTO.class);
+		ResponseEntity<BookingDTO> rec = restTemplate.postForEntity(bookingURL1, hhtEntity, BookingDTO.class);
 
 		return rec.getBody();
 
@@ -49,7 +61,7 @@ public class BusPortalBookingService {
 
 	public List<BookingDTO> getAllBookings() {
 
-		ResponseEntity<ArrayList> rec = restTemplate.getForEntity(bookingURL, ArrayList.class);
+		ResponseEntity<ArrayList> rec = restTemplate.getForEntity(bookingsURL, ArrayList.class);
 
 		return rec.getBody();
 
@@ -66,7 +78,7 @@ public class BusPortalBookingService {
 		return rec.getBody();
 
 	}
-	
+
 	public String cancelTicket(String bookingId) {
 
 		HttpHeaders httpHeader = new HttpHeaders();
@@ -78,8 +90,5 @@ public class BusPortalBookingService {
 		return ApplicationMessages.CANCELLED_TICKET;
 
 	}
-	
-	
-	
 
 }

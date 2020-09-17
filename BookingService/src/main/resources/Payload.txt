@@ -1,11 +1,11 @@
 {
     "travelContactNumber": 999999999,
     "travelEmailId": "vijayrathor@gmail.com",
-    "emailId": "vijayrathor@gmail.com",
     "buses": [
         {
             "busNumber": "KA01ES1923",
             "busCategory":"VOLVO",
+            "busStatus": "ACTIVE",
             
             "seats": [
                 {
@@ -58,6 +58,7 @@
         {
             "busNumber": "KA01ES1734",
             "busCategory":"NON_VOLVO",
+            "busStatus": "ACTIVE",
              "seats": [
                 {
                 "isFemaleReserved": true,
@@ -108,6 +109,7 @@
         }
     ]
 }
+
 
 
 

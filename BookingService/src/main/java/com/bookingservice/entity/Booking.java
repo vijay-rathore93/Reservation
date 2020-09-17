@@ -27,8 +27,9 @@ public class Booking {
 	@Column(name = "bookingId", nullable = false, unique = true)
 	private String bookingId;
 
+	// Changed String to Long
 	@Column(name = "customerId", nullable = false)
-	private String customerId;
+	private Long customerId;
 
 	private Boolean isReturnTicket;
 	

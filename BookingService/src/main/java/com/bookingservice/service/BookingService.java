@@ -114,8 +114,6 @@ public class BookingService {
 
 		String busNumber = booking.getBusNumber();
 
-		Bus bus = busRepo.findByBusNumber(busNumber).get();
-
 		for (Passenger p : passengerList) {
 			Seat seat = seatRepo.findByActualSeatNumber(busNumber + "_" + p.getSeatNumber()).get();
 
@@ -131,10 +129,18 @@ public class BookingService {
 		return ApplicationMessage.CANCELLED_TICKET;
 	}
 
-	public BookingDTO bookingGetter(String name) {
+	public BookingDTO getByBookingId(String bookingId) {
 
-		Booking booking = bookingRepo.findByBookingId(name)
+		Booking booking = bookingRepo.findByBookingId(bookingId)
 				.orElseThrow(() -> new BookingException("No such booking found"));
+
+		return modelMapper.map(booking, BookingDTO.class);
+	}
+
+	public BookingDTO getByCustomerId(Long customerId) {
+
+		Booking booking = bookingRepo.findByCustomerId(customerId)
+				.orElseThrow(() -> new BookingException("No such Customer Id found"));
 
 		return modelMapper.map(booking, BookingDTO.class);
 	}

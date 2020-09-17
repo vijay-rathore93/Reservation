@@ -18,7 +18,8 @@ import lombok.NoArgsConstructor;
 public class BookingDTO {
 
 	private String bookingId;
-	private String customerId;
+	// Changed String to Long
+	private Long customerId;
 	private List<PassengerDTO> passengerList;
 	private List<ItineraryDTO> itinerary;
 	private Boolean isReturnTicket;

@@ -21,7 +21,7 @@ public class BusPortalSeatController {
 	
 	private final BusPortalSeatService busPortalSeatService;
 	
-	@PatchMapping("/seats")
+	@PatchMapping("/updateSeats")
 	public ResponseEntity<Void> makeSeatAvailable(@RequestHeader String busNumber) {
 
 		busPortalSeatService.updateSeats(busNumber);
