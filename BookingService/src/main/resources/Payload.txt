@@ -116,14 +116,15 @@
 
 
 {
-    "custName": "MegalosaurusY",
-    "password": "vineetPassword",
+    "userName": "PASSENGER1",
+    "custName": "PASSENGER1",
+    "password": "Password",
     "emailId": "VineetKaddu@gmail.com",
     "aadharNumber": "ADAD214332",
     "contactNumber": 32486322123,
     "roleList": [
         {
-            "roleName": "ADMIN"
+            "roleName": "PASSENGER"
         }
     ]
 }

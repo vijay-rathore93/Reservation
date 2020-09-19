@@ -27,6 +27,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BusPortalCustomerService {
 
+	
+	
+	
 	@Value("${CUSTOMER_SERVICE}")
 	private String customerURL;
 
@@ -36,16 +39,23 @@ public class BusPortalCustomerService {
 	@Value("${CUSTOMERS_SERVICE}")
 	private String customersURL;
 
-	@Value("${CUSTOMER_SERVICE_BY_ID}")
-	private String customersByIdURL;
+	@Value("${CUSTOMER_BY_ID_SERVICE}")
+	private String customerByIdURL;
 
-	@Value("${CUSTOMER_SERVICE_BY_NAME}")
-	private String customersByNameURL;
+	@Value("${CUSTOMER_BY_NAME_SERVICE}")
+	private String customerByNameURL;
+	
+	
+	
+	
+	
+	
+	
 
 	private final RestTemplate restTemplate;
 	private final PasswordEncoder passwordEncoder;
 
-	public String customerCreation(CustomerDTO customerDTO, HttpServletRequest htsr) {
+	public String createCustomer(CustomerDTO customerDTO, HttpServletRequest htsr) {
 
 		customerDTO.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
 		HttpHeaders httpHeader = new HttpHeaders();
@@ -57,7 +67,7 @@ public class BusPortalCustomerService {
 
 	}
 
-	public List<CustomerDTO> getAllCustomers() {
+	public List<CustomerDTO> getCustomers() {
 
 		ResponseEntity<ArrayList> rec = restTemplate.getForEntity(customersURL, ArrayList.class);
 
@@ -68,28 +78,28 @@ public class BusPortalCustomerService {
 	public CustomerDTO getCustomerByName(String name) {
 
 		if (!SecurityContextHolder.getContext().getAuthentication().getName().equals(name)) {
-			throw new CustomerException("Sorry! Privacy is a Thing, bro!");
+			throw new CustomerException("Sorry! can't check other Customer Details!");
 		}
 
-		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customersByNameURL + name, CustomerDTO.class);
+		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByNameURL + name, CustomerDTO.class);
 
 		return rec.getBody();
 
 	}
 
-	public CustomerDTO getCustomer(Long id) {
+	public CustomerDTO getCustomerById(Long id) {
 
 		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
-			throw new CustomerException("Sorry! Privacy is a Thing, bro!");
+			throw new CustomerException("Sorry! can't check other Customer Details!");
 		}
 
-		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customersByIdURL + id, CustomerDTO.class);
+		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByIdURL + id, CustomerDTO.class);
 
 		return rec.getBody();
 
 	}
 
-	public String delCustomer(Long id) {
+	public String deleteCustomer(Long id) {
 
 		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
 			throw new CustomerException("Sorry! Can't delete Another Customer!");
@@ -101,18 +111,18 @@ public class BusPortalCustomerService {
 
 	}
 
-	public String tokenVerifier(String name) {
+	public String confirmCustomer(String token) {
 
-		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(confirmCustomerURL + name, CustomerDTO.class);
+		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(confirmCustomerURL + token, CustomerDTO.class);
 
 		return ApplicationMessages.TOKEN_VERIFY;
 
 	}
 
-	public String updCustomer(Long id, CustomerDTO customerDTO) {
+	public String updateCustomer(Long id, CustomerDTO customerDTO) {
 
 		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
-			throw new CustomerException("Sorry! Can't delete Another Customer!");
+			throw new CustomerException("Sorry! Can't update Another Customer!");
 		}
 
 		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();

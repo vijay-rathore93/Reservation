@@ -39,8 +39,12 @@ public class Customer {
 
 	private Boolean isActive;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "customer_role", joinColumns = @JoinColumn(name = "customer_Id"), inverseJoinColumns = @JoinColumn(name = "roleId"))
-	private Set<Role> roleList;
+//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	@JoinTable(name = "customer_role", joinColumns = @JoinColumn(name = "customer_Id"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+//	private Set<Role> roleList;
+	
+	
+	private String roleName;
+	
 
 }

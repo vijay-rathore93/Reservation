@@ -31,21 +31,21 @@ public class CustomerController {
 	public ResponseEntity<ResponseDTO<String>> createCustomer(@RequestBody CustomerDTO customer, HttpServletRequest htsr) {
 
 		return new ResponseEntity<ResponseDTO<String>>(
-				new ResponseDTO<String>(customerService.customerCreation(customer, htsr)), HttpStatus.CREATED);
+				new ResponseDTO<String>(customerService.createCustomer(customer, htsr)), HttpStatus.CREATED);
 
 	}
 
 	@GetMapping("/customers")
 	public ResponseEntity<List<CustomerDTO>> getCustomers() {
 
-		return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
+		return new ResponseEntity<>(customerService.getCustomers(), HttpStatus.OK);
 
 	}
 
 	@GetMapping("/customerById/{id}")
-	public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id) {
+	public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) {
 
-		return new ResponseEntity<>(customerService.getCustomer(id), HttpStatus.OK);
+		return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
 
 	}
 
@@ -59,20 +59,20 @@ public class CustomerController {
 	@DeleteMapping("/customer/{id}")
 	public ResponseEntity<ResponseDTO<String>> deleteCustomer(@PathVariable Long id) {
 
-		return new ResponseEntity<ResponseDTO<String>>(new ResponseDTO<String>(customerService.delCustomer(id)),
+		return new ResponseEntity<ResponseDTO<String>>(new ResponseDTO<String>(customerService.deleteCustomer(id)),
 				HttpStatus.OK);
 
 	}
 
 	@PatchMapping("/customer/{id}")
-	public ResponseEntity<ResponseDTO<String>> postCustomer(@PathVariable Long id, @RequestBody CustomerDTO customer) {
-		return new ResponseEntity<>(new ResponseDTO<>(customerService.updCustomer(id, customer)), HttpStatus.OK);
+	public ResponseEntity<ResponseDTO<String>> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customer) {
+		return new ResponseEntity<>(new ResponseDTO<>(customerService.updateCustomer(id, customer)), HttpStatus.OK);
 
 	}
 
 	@GetMapping("/confirmCustomer")
 	public ResponseEntity<ResponseDTO<String>> confirmCustomer(@RequestParam String token) {
-		return new ResponseEntity<>(new ResponseDTO<>(customerService.tokenVerifier(token)), HttpStatus.OK);
+		return new ResponseEntity<>(new ResponseDTO<>(customerService.confirmCustomer(token)), HttpStatus.OK);
 	}
 
 }

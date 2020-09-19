@@ -13,6 +13,7 @@ import org.userservice.exception.NoCustomerFoundException;
 import org.userservice.model.CustomerDTO;
 import org.userservice.repo.CustomerRepo;
 import org.userservice.utility.ApplicationMessage;
+import org.userservice.utility.ApplicationUserRole;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,29 +25,26 @@ public class CustomerService {
 	private final EmailService ems;
 	private final ModelMapper modelMapper;
 
-	
-	
-	public List<CustomerDTO> getAllCustomers() {
-		
-		List<Customer> customerList=customerRepo.findAll();
-		List<CustomerDTO> cdtoList=new ArrayList<CustomerDTO>();
-		
-		for(Customer c: customerList)
-		{
-			cdtoList.add(modelMapper.map(c,CustomerDTO.class));
+	public List<CustomerDTO> getCustomers() {
+
+		List<Customer> customerList = customerRepo.findAll();
+		List<CustomerDTO> cdtoList = new ArrayList<CustomerDTO>();
+
+		for (Customer c : customerList) {
+			cdtoList.add(modelMapper.map(c, CustomerDTO.class));
 		}
-		
+
 		return cdtoList;
 	}
 
-	public CustomerDTO getCustomer(Long id) {
+	public CustomerDTO getCustomerById(Long id) {
 
 		Customer cust = customerRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
 
 		return modelMapper.map(cust, CustomerDTO.class);
 	}
 
-	public String delCustomer(Long id) {
+	public String deleteCustomer(Long id) {
 
 		Customer customer = customerRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
 
@@ -56,7 +54,7 @@ public class CustomerService {
 
 	}
 
-	public String updCustomer(Long id, CustomerDTO custmr) {
+	public String updateCustomer(Long id, CustomerDTO custmr) {
 		Customer customer = customerRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
 		customer.setAadharNumber(custmr.getAadharNumber());
 		customer.setContactNumber(custmr.getContactNumber());
@@ -66,20 +64,18 @@ public class CustomerService {
 		return ApplicationMessage.UPDATE_MESSAGE;
 	}
 
-	public String customerCreation(CustomerDTO customer, HttpServletRequest htsr) {
+	public String createCustomer(CustomerDTO customer, HttpServletRequest htsr) {
 		String token = UUID.randomUUID().toString();
+		customer.setRoleName(ApplicationUserRole.PASSENGER.name());
 		customer.setToken(token);
 		customer.setIsActive(false);
 		ems.sendMail(customer.getEmailId(), htsr, token);
-		
-		//customer.setPassword(passwordE);
-		
-		
+
 		customerRepo.save(modelMapper.map(customer, Customer.class));
 		return ApplicationMessage.CREATE_MESSAGE;
 	}
 
-	public String tokenVerifier(String token) {
+	public String confirmCustomer(String token) {
 
 		Customer customer = customerRepo.findByToken(token)
 				.orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
@@ -91,9 +87,6 @@ public class CustomerService {
 
 	public CustomerDTO getCustomerByName(String name) {
 
-		
-		
-		
 		Customer cust = customerRepo.findByUserName(name)
 				.orElseThrow(() -> new NoCustomerFoundException("No Such Customer Found"));
 

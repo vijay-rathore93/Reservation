@@ -21,38 +21,32 @@ import com.busPortal.service.BusPortalCustomerService;
 
 import lombok.RequiredArgsConstructor;
 
-
-
 @RestController
 @RequiredArgsConstructor
 public class BusPortalCustomerController {
-	
-	
-	
+
 	private final BusPortalCustomerService busPortalCustomerService;
 
 	@PostMapping("/createCustomer")
-	public ResponseEntity<ResponseDTO<String>> createCustomer(@RequestBody CustomerDTO customer, HttpServletRequest htsr) {
+	public ResponseEntity<ResponseDTO<String>> createCustomer(@RequestBody CustomerDTO customer,
+			HttpServletRequest htsr) {
 
-		
-		
-		
 		return new ResponseEntity<ResponseDTO<String>>(
-				new ResponseDTO<String>(busPortalCustomerService.customerCreation(customer, htsr)), HttpStatus.CREATED);
+				new ResponseDTO<String>(busPortalCustomerService.createCustomer(customer, htsr)), HttpStatus.CREATED);
 
 	}
 
 	@GetMapping("/customers")
 	public ResponseEntity<List<CustomerDTO>> getCustomers() {
 
-		return new ResponseEntity<>(busPortalCustomerService.getAllCustomers(), HttpStatus.OK);
+		return new ResponseEntity<>(busPortalCustomerService.getCustomers(), HttpStatus.OK);
 
 	}
 
 	@GetMapping("/customerById/{id}")
-	public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id) {
+	public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) {
 
-		return new ResponseEntity<>(busPortalCustomerService.getCustomer(id), HttpStatus.OK);
+		return new ResponseEntity<>(busPortalCustomerService.getCustomerById(id), HttpStatus.OK);
 
 	}
 
@@ -63,23 +57,24 @@ public class BusPortalCustomerController {
 
 	}
 
-	@DeleteMapping("/customer/{id}")
+	@DeleteMapping("/deleteCustomer/{id}")
 	public ResponseEntity<ResponseDTO<String>> deleteCustomer(@PathVariable Long id) {
 
-		return new ResponseEntity<ResponseDTO<String>>(new ResponseDTO<String>(busPortalCustomerService.delCustomer(id)),
-				HttpStatus.OK);
+		return new ResponseEntity<ResponseDTO<String>>(
+				new ResponseDTO<String>(busPortalCustomerService.deleteCustomer(id)), HttpStatus.OK);
 
 	}
 
-	@PatchMapping("/customer/{id}")
-	public ResponseEntity<ResponseDTO<String>> postCustomer(@PathVariable Long id, @RequestBody CustomerDTO customer) {
-		return new ResponseEntity<>(new ResponseDTO<>(busPortalCustomerService.updCustomer(id, customer)), HttpStatus.OK);
+	@PatchMapping("/updateCustomer/{id}")
+	public ResponseEntity<ResponseDTO<String>> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customer) {
+		return new ResponseEntity<>(new ResponseDTO<>(busPortalCustomerService.updateCustomer(id, customer)),
+				HttpStatus.OK);
 
 	}
 
 	@GetMapping("/confirmCustomer")
 	public ResponseEntity<ResponseDTO<String>> confirmCustomer(@RequestParam String token) {
-		return new ResponseEntity<>(new ResponseDTO<>(busPortalCustomerService.tokenVerifier(token)), HttpStatus.OK);
+		return new ResponseEntity<>(new ResponseDTO<>(busPortalCustomerService.confirmCustomer(token)), HttpStatus.OK);
 	}
 
 }
