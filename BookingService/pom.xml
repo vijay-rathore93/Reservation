@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>BookingService</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>BookingService</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -71,6 +71,9 @@
 	</dependencies>
 
 	<build>
+		<finalName>
+	Booking-Service
+	</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

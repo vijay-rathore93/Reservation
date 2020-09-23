@@ -7,18 +7,18 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
-@Entity
 @Data
-public class Customer {
+@Entity
+public class Travels {
 
 	@Id
 	@GeneratedValue
-	private Long customerId;
+	private Long travelsId;
 
 	@Column(name = "userName", nullable = false, unique = true)
 	private String userName;
 
-	private String custName;
+	private String travelsName;
 
 	private String password;
 
@@ -31,15 +31,7 @@ public class Customer {
 	private String token;
 
 	private Boolean isActive;
-	
-	private String roleName;
 
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@JoinTable(name = "customer_role", joinColumns = @JoinColumn(name = "customer_Id"), inverseJoinColumns = @JoinColumn(name = "roleId"))
-//	private Set<Role> roleList;
-	
-	
-	
-	
+	private String roleName;
 
 }

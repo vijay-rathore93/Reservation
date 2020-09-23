@@ -1,9 +1,5 @@
 package org.userservice.model;
 
-import java.util.Set;
-
-import org.userservice.entity.Role;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,14 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerDTO {
+public class TravellerDTO {
 
-	private Long customerId;
-	
+	private Long travelsId;
+
 	private String userName;
 
-	private String custName;
-	
+	private String travelsName;
+
 	private String password;
 
 	private String emailId;
@@ -30,12 +26,7 @@ public class CustomerDTO {
 	private String token;
 
 	private Boolean isActive;
-	
-	private String roleName;
 
-//	private Set<RoleDTO> roleList;
-	
-	
-	
+	private String roleName;
 
 }

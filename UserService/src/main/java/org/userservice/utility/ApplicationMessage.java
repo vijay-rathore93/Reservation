@@ -1,11 +1,11 @@
 package org.userservice.utility;
 
 public class ApplicationMessage {
-	
-	
-	public static final String UPDATE_MESSAGE="Customer Updated Succesfully";
-	public static final String CREATE_MESSAGE="Customer Created Succesfully";
-	public static final String DELETE_MESSAGE="Customer Deleted Succesfully";
-	public static final String TOKEN_VERIFY="Token Verified Succesfully";
+
+	public static final String UPDATE_MESSAGE = "Account updated succesfully";
+	public static final String CREATE_MESSAGE = "Account created succesfully";
+	public static final String DELETE_MESSAGE = "Account deleted succesfully";
+	public static final String TOKEN_VERIFY = "Account verified succesfully";
+	public static final String NOT_ACTIVATED = "Account has not been activated";
 
 }

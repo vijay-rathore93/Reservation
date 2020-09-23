@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,9 +28,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BusPortalCustomerService {
 
-	
-	
-	
 	@Value("${CUSTOMER_SERVICE}")
 	private String customerURL;
 
@@ -44,13 +42,6 @@ public class BusPortalCustomerService {
 
 	@Value("${CUSTOMER_BY_NAME_SERVICE}")
 	private String customerByNameURL;
-	
-	
-	
-	
-	
-	
-	
 
 	private final RestTemplate restTemplate;
 	private final PasswordEncoder passwordEncoder;
@@ -61,9 +52,13 @@ public class BusPortalCustomerService {
 		HttpHeaders httpHeader = new HttpHeaders();
 		HttpEntity<CustomerDTO> httpEntity = new HttpEntity<CustomerDTO>(customerDTO, httpHeader);
 
-		ResponseEntity<ResponseDTO> rec = restTemplate.postForEntity(customerURL, httpEntity, ResponseDTO.class);
+		ResponseEntity<Void> rec = restTemplate.postForEntity(customerURL, httpEntity, Void.class);
 
-		return rec.getBody().getMessage().toString();
+		if (rec.getStatusCode().value() == HttpStatus.CREATED.value())
+
+			return "Account Created Succesfully";
+
+		throw new CustomerException("Problem Occured");
 
 	}
 

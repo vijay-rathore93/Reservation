@@ -22,30 +22,21 @@ import lombok.RequiredArgsConstructor;
 public class CustomUserDetailsService implements UserDetailsService {
 
 	private final RestTemplate restTemplate;
-	
-	
 
-	
 	@Value("${CUSTOMER_SERVICE_BY_NAME}")
 	private String customerByNameURL;
-	
-	
 
 	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 
-		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByNameURL + name,
-				CustomerDTO.class);
+		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByNameURL + name, CustomerDTO.class);
 
-		return new CustomUserDetails(rec.getBody(), getSimpleGrantedAuthority(rec.getBody().getRoleList()));
+		return new CustomUserDetails(rec.getBody(), getSimpleGrantedAuthority(rec.getBody().getRoleName()));
 	}
 
-	private Set<SimpleGrantedAuthority> getSimpleGrantedAuthority(Set<RoleDTO> set) {
+	private Set<SimpleGrantedAuthority> getSimpleGrantedAuthority(String roleName) {
 		HashSet<SimpleGrantedAuthority> hs = new HashSet<SimpleGrantedAuthority>();
-		for (RoleDTO role : set) {
-			SimpleGrantedAuthority roles = new SimpleGrantedAuthority("ROLE_" + role.getRoleName());
-			hs.add(roles);
-		}
+		hs.add(new SimpleGrantedAuthority("ROLE_" + roleName));
 		return hs;
 	}
 

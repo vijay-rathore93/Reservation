@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.userservice.entity.Customer;
 import org.userservice.model.CustomerDTO;
 import org.userservice.model.ResponseDTO;
 import org.userservice.service.CustomerService;
@@ -28,10 +27,9 @@ public class CustomerController {
 	private final CustomerService customerService;
 
 	@PostMapping("/customer")
-	public ResponseEntity<ResponseDTO<String>> createCustomer(@RequestBody CustomerDTO customer, HttpServletRequest htsr) {
-
-		return new ResponseEntity<ResponseDTO<String>>(
-				new ResponseDTO<String>(customerService.createCustomer(customer, htsr)), HttpStatus.CREATED);
+	public ResponseEntity<Void> createCustomer(@RequestBody CustomerDTO customer, HttpServletRequest htsr) {
+		customerService.createCustomer(customer, htsr);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 
 	}
 
@@ -65,7 +63,8 @@ public class CustomerController {
 	}
 
 	@PatchMapping("/customer/{id}")
-	public ResponseEntity<ResponseDTO<String>> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customer) {
+	public ResponseEntity<ResponseDTO<String>> updateCustomer(@PathVariable Long id,
+			@RequestBody CustomerDTO customer) {
 		return new ResponseEntity<>(new ResponseDTO<>(customerService.updateCustomer(id, customer)), HttpStatus.OK);
 
 	}

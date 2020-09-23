@@ -27,7 +27,7 @@ public class BusPortalCustomerController {
 
 	private final BusPortalCustomerService busPortalCustomerService;
 
-	@PostMapping("/createCustomer")
+	@PostMapping("/customer")
 	public ResponseEntity<ResponseDTO<String>> createCustomer(@RequestBody CustomerDTO customer,
 			HttpServletRequest htsr) {
 
@@ -57,7 +57,7 @@ public class BusPortalCustomerController {
 
 	}
 
-	@DeleteMapping("/deleteCustomer/{id}")
+	@DeleteMapping("/customer/{id}")
 	public ResponseEntity<ResponseDTO<String>> deleteCustomer(@PathVariable Long id) {
 
 		return new ResponseEntity<ResponseDTO<String>>(
@@ -65,7 +65,7 @@ public class BusPortalCustomerController {
 
 	}
 
-	@PatchMapping("/updateCustomer/{id}")
+	@PatchMapping("/customer/{id}")
 	public ResponseEntity<ResponseDTO<String>> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customer) {
 		return new ResponseEntity<>(new ResponseDTO<>(busPortalCustomerService.updateCustomer(id, customer)),
 				HttpStatus.OK);

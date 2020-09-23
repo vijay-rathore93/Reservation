@@ -56,6 +56,11 @@ public class CustomerService {
 
 	public String updateCustomer(Long id, CustomerDTO custmr) {
 		Customer customer = customerRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
+
+		if (customer.getIsActive() == false) {
+			return ApplicationMessage.NOT_ACTIVATED;
+		}
+
 		customer.setAadharNumber(custmr.getAadharNumber());
 		customer.setContactNumber(custmr.getContactNumber());
 		customer.setEmailId(custmr.getEmailId());
@@ -64,15 +69,15 @@ public class CustomerService {
 		return ApplicationMessage.UPDATE_MESSAGE;
 	}
 
-	public String createCustomer(CustomerDTO customer, HttpServletRequest htsr) {
+	public void createCustomer(CustomerDTO customer, HttpServletRequest htsr) {
 		String token = UUID.randomUUID().toString();
 		customer.setRoleName(ApplicationUserRole.PASSENGER.name());
 		customer.setToken(token);
 		customer.setIsActive(false);
-		ems.sendMail(customer.getEmailId(), htsr, token);
 
 		customerRepo.save(modelMapper.map(customer, Customer.class));
-		return ApplicationMessage.CREATE_MESSAGE;
+		ems.sendMail(customer.getEmailId(), htsr, token);
+
 	}
 
 	public String confirmCustomer(String token) {

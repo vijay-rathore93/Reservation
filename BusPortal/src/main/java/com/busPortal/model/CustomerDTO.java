@@ -33,6 +33,9 @@ public class CustomerDTO {
 	
 	private Boolean isActive;
 	
-	private Set<RoleDTO> roleList;
+	
+	private String roleName;
+	
+	
 
 }

@@ -20,17 +20,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final CustomErrorHandler customErrorHandler;
 	private final CustomSuccesHandler customSuccesHandler;
 
-	private String[] allowedRequestURI = { "/createCustomer", "/confirmCustomer","/deleteCustomer","/updateCustomer" };
+	private String[] allowedRequestURI = { "/customer", "/confirmCustomer","/admin","/confirmAdmin","/traveller", "/confirmTraveller" };
 
 	private String[] travelsRoleRequestURIs = { "/travels/**", "travel", "/seat/**", "/seats", "/buses", "/bus",
-			"/busStatus/**", "/busCategory/**","/customers/**","/customerByName","/customerById"};
-	
-	private String[] adminRoleRequestURIs = {"travel", "/seat/**", "/updateSeats", "/buses", "/bus",
-			"/busStatus/**", "/busCategory/**","/customers/**","/customerByName","/customerById"};
-	
-	
+			"/traveller", "/confirmTraveller", "/busStatus/**", "/busCategory/**", "/customers/**", "/customerByName",
+			"/customerById" };
+
+	private String[] adminRoleRequestURIs = { "travel", "/seat/**", "/updateSeats", "/buses", "/bus", "/busStatus/**","/admin","/confirmAdmin",
+			"/busCategory/**", "/customers/**", "/customerByName", "/customerById" };
+
 	private String[] passengerRoleRequestURIs = { "/bookings", "/booking/**", "/ticket", "/cancelTicket",
-			"/customer/**"};
+			"/customer/**" };
 
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
@@ -43,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers(allowedRequestURI).permitAll();
 		http.authorizeRequests().antMatchers(travelsRoleRequestURIs)
 				.hasAnyRole(ApplicationUserRole.TRAVELS.name(), ApplicationUserRole.ADMIN.name())
-				.antMatchers(passengerRoleRequestURIs)
-				.hasAnyRole(ApplicationUserRole.PASSENGER.name(), ApplicationUserRole.ADMIN.name(),ApplicationUserRole.TRAVELS.name());
+				.antMatchers(passengerRoleRequestURIs).hasAnyRole(ApplicationUserRole.PASSENGER.name(),
+						ApplicationUserRole.ADMIN.name(), ApplicationUserRole.TRAVELS.name());
 
 		http.authorizeRequests().anyRequest().authenticated().and().httpBasic().and().formLogin().loginPage("/login")
 				.successHandler(customSuccesHandler).failureHandler(customErrorHandler).permitAll();
