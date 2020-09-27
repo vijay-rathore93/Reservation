@@ -20,14 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final CustomErrorHandler customErrorHandler;
 	private final CustomSuccesHandler customSuccesHandler;
 
-	private String[] allowedRequestURI = { "/customer", "/confirmCustomer","/admin","/confirmAdmin","/traveller", "/confirmTraveller" };
+	private String[] allowedRequestURI = { "/customer", "/confirmCustomer", "/admin", "/confirmAdmin", "/traveller",
+			"/confirmTraveller" };
 
 	private String[] travelsRoleRequestURIs = { "/travels/**", "travel", "/seat/**", "/seats", "/buses", "/bus",
-			"/traveller", "/confirmTraveller", "/busStatus/**", "/busCategory/**", "/customers/**", "/customerByName",
-			"/customerById" };
+			"/busStatus/**", "/busCategory/**", "/customers/**", "/customerByName/**", "/customerById/**" };
 
-	private String[] adminRoleRequestURIs = { "travel", "/seat/**", "/updateSeats", "/buses", "/bus", "/busStatus/**","/admin","/confirmAdmin",
-			"/busCategory/**", "/customers/**", "/customerByName", "/customerById" };
+	private String[] adminRoleRequestURIs = { "travel", "/seat/**", "/updateSeats", "/buses", "/bus", "/busStatus/**",
+			"/busCategory/**", "/customers/**", "/customerByName/**", "/customerById/**" };
 
 	private String[] passengerRoleRequestURIs = { "/bookings", "/booking/**", "/ticket", "/cancelTicket",
 			"/customer/**" };

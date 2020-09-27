@@ -8,10 +8,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.userservice.entity.Admin;
-import org.userservice.entity.Travels;
+import org.userservice.entity.LoginCredentials;
 import org.userservice.exception.NoCustomerFoundException;
 import org.userservice.model.AdminDTO;
+import org.userservice.model.LoginAdminDTO;
 import org.userservice.repo.AdminRepo;
+import org.userservice.repo.LoginRepo;
 import org.userservice.utility.ApplicationMessage;
 import org.userservice.utility.ApplicationUserRole;
 
@@ -22,27 +24,47 @@ import lombok.RequiredArgsConstructor;
 public class AdminService {
 
 	private final AdminRepo adminRepo;
-	private final EmailServiceAdmin ems;
+	private final EmailService ems;
 	private final ModelMapper modelMapper;
+	private final LoginRepo loginRepo;
+
+	@Value("${MAIL_SERVICE_ADMIN}")
+	private String mailId;
 
 	public void createAdmin(AdminDTO adminDTO, HttpServletRequest htsr) {
 
 		String token = UUID.randomUUID().toString();
-		adminDTO.setRoleName(ApplicationUserRole.ADMIN.name());
-		adminDTO.setIsActive(false);
-		adminDTO.setToken(token);
-		adminRepo.save(modelMapper.map(adminDTO, Admin.class));
-		ems.sendMail(htsr, token);
+
+		LoginCredentials loginCredentials = new LoginCredentials();
+
+		Admin admin = new Admin();
+		loginCredentials.setPassword(adminDTO.getPassword());
+		loginCredentials.setRoleName(ApplicationUserRole.ADMIN.name());
+		loginCredentials.setToken(token);
+		loginCredentials.setIsActive(false);
+		loginCredentials.setUserName(adminDTO.getUserName());
+
+		admin.setAadharNumber(adminDTO.getAadharNumber());
+		admin.setAdminName(adminDTO.getAdminName());
+		admin.setContactNumber(adminDTO.getContactNumber());
+		admin.setEmailId(adminDTO.getEmailId());
+		admin.setLoginCredentials(loginCredentials);
+
+		adminRepo.save(admin);
+
+		ems.sendMail(mailId, htsr, token);
 
 	}
 
 	public String confirmAdmin(String token) {
 
-		Admin admin = adminRepo.findByToken(token).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
+		LoginCredentials loginCredentials = loginRepo.findByToken(token)
+				.orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
 
-		admin.setIsActive(true);
-		admin.setToken(null);
-		adminRepo.save(admin);
+		loginCredentials.setIsActive(true);
+		loginCredentials.setToken(null);
+
+		loginRepo.save(loginCredentials);
 		return ApplicationMessage.TOKEN_VERIFY;
 	}
 
@@ -50,7 +72,7 @@ public class AdminService {
 
 		Admin admin = adminRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
 
-		if (admin.getIsActive() == false) {
+		if (admin.getLoginCredentials().getIsActive() == false) {
 			return ApplicationMessage.NOT_ACTIVATED;
 		}
 
@@ -58,7 +80,7 @@ public class AdminService {
 		admin.setAdminName(adminDTO.getAdminName());
 		admin.setContactNumber(adminDTO.getContactNumber());
 		admin.setEmailId(adminDTO.getEmailId());
-		
+
 		adminRepo.save(admin);
 
 		return ApplicationMessage.UPDATE_MESSAGE;

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.userservice.model.LoginTravellerDTO;
 import org.userservice.model.ResponseDTO;
 import org.userservice.model.TravellerDTO;
 import org.userservice.service.TravelsService;
@@ -25,16 +26,12 @@ public class TravelsController {
 	private final TravelsService travelsService;
 
 	@PostMapping("/travels")
-	public ResponseEntity<Void> createTravels(@RequestBody TravellerDTO travelsDTO, HttpServletRequest htsr) {
-		travelsService.createTravels(travelsDTO, htsr);
+	public ResponseEntity<Void> createTravels(@RequestBody LoginTravellerDTO loginTravellerDTO,
+			HttpServletRequest htsr) {
+		travelsService.createTravels(loginTravellerDTO, htsr);
 
 		return new ResponseEntity<>(HttpStatus.CREATED);
 
-	}
-
-	@GetMapping("/confirmTravels")
-	public ResponseEntity<ResponseDTO<String>> confirmTravels(@RequestParam String token) {
-		return new ResponseEntity<>(new ResponseDTO<>(travelsService.confirmTravels(token)), HttpStatus.OK);
 	}
 
 	@PatchMapping("/travels/{id}")

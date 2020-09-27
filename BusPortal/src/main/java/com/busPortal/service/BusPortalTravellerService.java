@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,6 +25,7 @@ public class BusPortalTravellerService {
 	
 	
 	private final RestTemplate restTemplate;
+	private final PasswordEncoder passwordEncoder;
 	
 	@Value("${TRAVELLER_SERVICE}")
 	private String travellerURL;
@@ -33,6 +35,9 @@ public class BusPortalTravellerService {
 	
 
 	public String createTravels(TravellerDTO travellerDTO, HttpServletRequest htsr) {
+		
+		travellerDTO.setPassword(passwordEncoder.encode(travellerDTO.getPassword()));
+		
 		
 		HttpHeaders httpHeader = new HttpHeaders();
 		HttpEntity<TravellerDTO> httpEntity = new HttpEntity<TravellerDTO>(travellerDTO, httpHeader);

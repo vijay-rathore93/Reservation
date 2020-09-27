@@ -1,26 +1,30 @@
 package org.userservice.entity;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Admin {
 
 	@Id
 	@GeneratedValue
 	private Long adminId;
 
-	@Column(name = "userName", nullable = false, unique = true)
-	private String userName;
-
 	private String adminName;
-
-	private String password;
 
 	private String emailId;
 
@@ -28,10 +32,8 @@ public class Admin {
 
 	private Long contactNumber;
 
-	private String token;
-
-	private Boolean isActive;
-
-	private String roleName;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "admin_loginCredentials")
+	private LoginCredentials loginCredentials;
 
 }

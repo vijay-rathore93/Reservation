@@ -1,4 +1,4 @@
-package com.busPortal.model;
+package org.userservice.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -6,30 +6,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AdminDTO {
+public class LoginDTO {
 
-	private Long adminId;
+	private Long loginId;
 
 	private String userName;
 
-	private String adminName;
-
-	private String emailId;
-
-	private String aadharNumber;
-
-	private Long contactNumber;
+	private String password;
 
 	private String roleName;
 
-	private String password;
+	private Boolean isActive;
 
 	private String token;
-
-	private Boolean isActive;
+	
+	
 
 }

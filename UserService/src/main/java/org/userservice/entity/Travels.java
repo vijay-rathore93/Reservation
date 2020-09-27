@@ -1,26 +1,30 @@
 package org.userservice.entity;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Travels {
 
 	@Id
 	@GeneratedValue
 	private Long travelsId;
 
-	@Column(name = "userName", nullable = false, unique = true)
-	private String userName;
-
 	private String travelsName;
-
-	private String password;
 
 	private String emailId;
 
@@ -28,10 +32,8 @@ public class Travels {
 
 	private Long contactNumber;
 
-	private String token;
-
-	private Boolean isActive;
-
-	private String roleName;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "traveller_loginCredentials")
+	private LoginCredentials loginCredentials;
 
 }

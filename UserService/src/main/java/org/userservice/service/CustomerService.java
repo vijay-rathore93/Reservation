@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.userservice.entity.Customer;
+import org.userservice.entity.LoginCredentials;
 import org.userservice.exception.NoCustomerFoundException;
 import org.userservice.model.CustomerDTO;
+import org.userservice.model.LoginCustomerDTO;
 import org.userservice.repo.CustomerRepo;
+import org.userservice.repo.LoginRepo;
 import org.userservice.utility.ApplicationMessage;
 import org.userservice.utility.ApplicationUserRole;
 
@@ -24,6 +27,7 @@ public class CustomerService {
 	private final CustomerRepo customerRepo;
 	private final EmailService ems;
 	private final ModelMapper modelMapper;
+	private final LoginRepo loginRepo;
 
 	public List<CustomerDTO> getCustomers() {
 
@@ -54,48 +58,52 @@ public class CustomerService {
 
 	}
 
-	public String updateCustomer(Long id, CustomerDTO custmr) {
+	public String updateCustomer(Long id, CustomerDTO customerDTO) {
 		Customer customer = customerRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
 
-		if (customer.getIsActive() == false) {
+		if (customer.getLoginCredentials().getIsActive() == false) {
 			return ApplicationMessage.NOT_ACTIVATED;
 		}
 
-		customer.setAadharNumber(custmr.getAadharNumber());
-		customer.setContactNumber(custmr.getContactNumber());
-		customer.setEmailId(custmr.getEmailId());
-		customer.setCustName(custmr.getCustName());
+		customer.setAadharNumber(customerDTO.getAadharNumber());
+		customer.setContactNumber(customerDTO.getContactNumber());
+		customer.setEmailId(customerDTO.getEmailId());
+		customer.setCustName(customerDTO.getCustName());
 		customerRepo.save(customer);
 		return ApplicationMessage.UPDATE_MESSAGE;
 	}
 
-	public void createCustomer(CustomerDTO customer, HttpServletRequest htsr) {
+	public void createCustomer(CustomerDTO customerDTO, HttpServletRequest htsr) {
 		String token = UUID.randomUUID().toString();
-		customer.setRoleName(ApplicationUserRole.PASSENGER.name());
-		customer.setToken(token);
-		customer.setIsActive(false);
 
-		customerRepo.save(modelMapper.map(customer, Customer.class));
-		ems.sendMail(customer.getEmailId(), htsr, token);
+		LoginCredentials loginCredentials = LoginCredentials.builder().userName(customerDTO.getUserName())
+				.isActive(false).password(customerDTO.getPassword()).roleName(ApplicationUserRole.PASSENGER.name())
+				.token(token).build();
+		
+		Customer customer=modelMapper.map(customerDTO, Customer.class);
+		
+		customer.setLoginCredentials(loginCredentials);
 
-	}
-
-	public String confirmCustomer(String token) {
-
-		Customer customer = customerRepo.findByToken(token)
-				.orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
-		customer.setIsActive(true);
-		customer.setToken(null);
 		customerRepo.save(customer);
-		return ApplicationMessage.TOKEN_VERIFY;
+		ems.sendMail(customerDTO.getEmailId(), htsr, token);
+
 	}
+
+
 
 	public CustomerDTO getCustomerByName(String name) {
 
-		Customer cust = customerRepo.findByUserName(name)
+		LoginCredentials login = loginRepo.findByUserName(name)
 				.orElseThrow(() -> new NoCustomerFoundException("No Such Customer Found"));
 
-		return modelMapper.map(cust, CustomerDTO.class);
+		Customer cust = customerRepo.findByLoginCredentials(login).get();
+
+		CustomerDTO customerDTO = modelMapper.map(cust, CustomerDTO.class);
+
+		customerDTO.setRoleName(cust.getLoginCredentials().getRoleName());
+		customerDTO.setUserName(cust.getLoginCredentials().getUserName());
+
+		return customerDTO;
 
 	}
 

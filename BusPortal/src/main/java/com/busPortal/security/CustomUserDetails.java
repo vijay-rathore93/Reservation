@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.busPortal.model.CustomerDTO;
+import com.busPortal.model.LoginDTO;
 
 public class CustomUserDetails implements UserDetails{
 	
@@ -17,10 +18,10 @@ public class CustomUserDetails implements UserDetails{
 	
 	
 
-	public CustomUserDetails(CustomerDTO customer, Set<SimpleGrantedAuthority> simpleGrantedAuthority) {
+	public CustomUserDetails(LoginDTO loginDTO, Set<SimpleGrantedAuthority> simpleGrantedAuthority) {
 		
-		this.userName = customer.getUserName();
-		this.password = customer.getPassword();
+		this.userName = loginDTO.getUserName();
+		this.password = loginDTO.getPassword();
 		this.authorities = simpleGrantedAuthority;
 	}
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.busPortal.model.CustomerDTO;
-import com.busPortal.model.RoleDTO;
+import com.busPortal.model.LoginDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,13 +26,23 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Value("${CUSTOMER_SERVICE_BY_NAME}")
 	private String customerByNameURL;
 
+//	@Override
+//	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+//
+//		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByNameURL + name, CustomerDTO.class);
+//
+//		return new CustomUserDetails(rec.getBody(), getSimpleGrantedAuthority(rec.getBody().getRoleName()));
+//	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 
-		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByNameURL + name, CustomerDTO.class);
+		ResponseEntity<LoginDTO> rec = restTemplate.getForEntity("http://localhost:9001/login/" + name, LoginDTO.class);
 
 		return new CustomUserDetails(rec.getBody(), getSimpleGrantedAuthority(rec.getBody().getRoleName()));
 	}
+	
+	
 
 	private Set<SimpleGrantedAuthority> getSimpleGrantedAuthority(String roleName) {
 		HashSet<SimpleGrantedAuthority> hs = new HashSet<SimpleGrantedAuthority>();

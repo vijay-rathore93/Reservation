@@ -9,8 +9,7 @@ import org.userservice.entity.Travels;
 public interface TravelsRepo extends JpaRepository<Travels, Long> {
 	
 	
-	public Optional<Travels> findByToken(String msg);
-	public Optional<Travels> findByUserName(String username);
+	
 	
 
 }

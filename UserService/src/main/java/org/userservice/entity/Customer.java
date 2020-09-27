@@ -1,26 +1,30 @@
 package org.userservice.entity;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
 
 	@Id
 	@GeneratedValue
 	private Long customerId;
 
-	@Column(name = "userName", nullable = false, unique = true)
-	private String userName;
-
 	private String custName;
-
-	private String password;
 
 	private String emailId;
 
@@ -28,18 +32,8 @@ public class Customer {
 
 	private Long contactNumber;
 
-	private String token;
-
-	private Boolean isActive;
-	
-	private String roleName;
-
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@JoinTable(name = "customer_role", joinColumns = @JoinColumn(name = "customer_Id"), inverseJoinColumns = @JoinColumn(name = "roleId"))
-//	private Set<Role> roleList;
-	
-	
-	
-	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "customer_loginCredentials")
+	private LoginCredentials loginCredentials;
 
 }

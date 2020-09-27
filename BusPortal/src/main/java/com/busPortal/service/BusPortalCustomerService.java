@@ -12,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.busPortal.exception.CustomerException;
 import com.busPortal.model.CustomerDTO;
+import com.busPortal.model.LoginDTO;
 import com.busPortal.model.ResponseDTO;
 import com.busPortal.utility.ApplicationMessages;
 
@@ -64,6 +66,19 @@ public class BusPortalCustomerService {
 
 	public List<CustomerDTO> getCustomers() {
 
+		List<? extends GrantedAuthority> x = (List<? extends GrantedAuthority>) SecurityContextHolder.getContext()
+				.getAuthentication().getAuthorities();
+
+		GrantedAuthority y = x.get(0);
+
+		String z = y.getAuthority();
+
+		if (z.equalsIgnoreCase("ROLE_TRAVELS")) {
+
+			// return null;
+
+		}
+
 		ResponseEntity<ArrayList> rec = restTemplate.getForEntity(customersURL, ArrayList.class);
 
 		return rec.getBody();
@@ -72,8 +87,19 @@ public class BusPortalCustomerService {
 
 	public CustomerDTO getCustomerByName(String name) {
 
-		if (!SecurityContextHolder.getContext().getAuthentication().getName().equals(name)) {
-			throw new CustomerException("Sorry! can't check other Customer Details!");
+		List<? extends GrantedAuthority> x = (List<? extends GrantedAuthority>) SecurityContextHolder.getContext()
+				.getAuthentication().getAuthorities();
+
+		GrantedAuthority y = x.get(0);
+
+		String z = y.getAuthority();
+
+		if (!z.equalsIgnoreCase("ROLE_TRAVELS")) {
+
+			if (!SecurityContextHolder.getContext().getAuthentication().getName().equals(name)) {
+				throw new CustomerException("Sorry! can't check other Customer Details!");
+			}
+
 		}
 
 		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByNameURL + name, CustomerDTO.class);
@@ -82,25 +108,64 @@ public class BusPortalCustomerService {
 
 	}
 
+//	public CustomerDTO getCustomerById(Long id) {
+//
+//		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
+//			throw new CustomerException("Sorry! can't check other Customer Details!");
+//		}
+//
+//		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByIdURL + id, CustomerDTO.class);
+//
+//		return rec.getBody();
+//
+//	}
+	
 	public CustomerDTO getCustomerById(Long id) {
 
-		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
-			throw new CustomerException("Sorry! can't check other Customer Details!");
-		}
+		List<? extends GrantedAuthority> x = (List<? extends GrantedAuthority>) SecurityContextHolder.getContext()
+				.getAuthentication().getAuthorities();
 
+		GrantedAuthority y = x.get(0);
+
+		String z = y.getAuthority();
+		
+		if (!z.equalsIgnoreCase("ROLE_TRAVELS")) {
+
+			if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
+				throw new CustomerException("Sorry! can't check other Customer Details!");
+			}
+
+		}
+		
 		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByIdURL + id, CustomerDTO.class);
 
 		return rec.getBody();
 
 	}
+	
+	
+	
 
 	public String deleteCustomer(Long id) {
+		
+		List<? extends GrantedAuthority> x = (List<? extends GrantedAuthority>) SecurityContextHolder.getContext()
+				.getAuthentication().getAuthorities();
 
-		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
-			throw new CustomerException("Sorry! Can't delete Another Customer!");
+		GrantedAuthority y = x.get(0);
+
+		String z = y.getAuthority();
+		
+		if (!z.equalsIgnoreCase("ROLE_TRAVELS")) {
+
+			if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
+				throw new CustomerException("Sorry! can't check other Customer Details!");
+			}
+
 		}
+		
+		
 
-		restTemplate.delete(customerURL + id, Void.class);
+		restTemplate.delete(customerURL +"/"+ id, Void.class);
 
 		return ApplicationMessages.CUSTOMER_DELETED;
 
@@ -115,10 +180,23 @@ public class BusPortalCustomerService {
 	}
 
 	public String updateCustomer(Long id, CustomerDTO customerDTO) {
+		
+		List<? extends GrantedAuthority> x = (List<? extends GrantedAuthority>) SecurityContextHolder.getContext()
+				.getAuthentication().getAuthorities();
 
-		if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
-			throw new CustomerException("Sorry! Can't update Another Customer!");
+		GrantedAuthority y = x.get(0);
+
+		String z = y.getAuthority();
+		
+		if (!z.equalsIgnoreCase("ROLE_TRAVELS")) {
+
+			if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
+				throw new CustomerException("Sorry! Can't update Another Customer!");
+			}
+
 		}
+		
+
 
 		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
 		requestFactory.setConnectTimeout(2000);
@@ -128,7 +206,7 @@ public class BusPortalCustomerService {
 
 		HttpEntity<CustomerDTO> httpEntity = new HttpEntity<>(customerDTO);
 
-		ResponseEntity<ResponseDTO> response = restTemplate.exchange(customerURL + id, HttpMethod.PATCH, httpEntity,
+		ResponseEntity<ResponseDTO> response = restTemplate.exchange(customerURL +"/"+ id, HttpMethod.PATCH, httpEntity,
 				ResponseDTO.class);
 
 		return response.getBody().getMessage().toString();

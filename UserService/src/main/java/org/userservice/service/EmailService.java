@@ -28,7 +28,7 @@ public class EmailService {
 		smm.setTo(emailId);
 		smm.setSubject("Verification Mail");
 
-		smm.setText(url + "/confirmCustomer?token=" + token);
+		smm.setText(url + "/confirm?token=" + token);
 
 		javaMailSender.send(smm);
 

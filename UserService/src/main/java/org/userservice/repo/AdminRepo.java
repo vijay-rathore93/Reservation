@@ -8,7 +8,5 @@ import org.userservice.entity.Admin;
 public interface AdminRepo extends JpaRepository<Admin, Long>{
 	
 	
-	public Optional<Admin> findByToken(String msg);
-	public Optional<Admin> findByUserName(String username);
 
 }
