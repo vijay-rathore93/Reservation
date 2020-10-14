@@ -45,7 +45,7 @@ public class AdminService {
 		loginCredentials.setUserName(adminDTO.getUserName());
 
 		admin.setAadharNumber(adminDTO.getAadharNumber());
-		admin.setAdminName(adminDTO.getAdminName());
+		admin.setName(adminDTO.getName());
 		admin.setContactNumber(adminDTO.getContactNumber());
 		admin.setEmailId(adminDTO.getEmailId());
 		admin.setLoginCredentials(loginCredentials);
@@ -77,7 +77,7 @@ public class AdminService {
 		}
 
 		admin.setAadharNumber(adminDTO.getAadharNumber());
-		admin.setAdminName(adminDTO.getAdminName());
+		admin.setName(adminDTO.getName());
 		admin.setContactNumber(adminDTO.getContactNumber());
 		admin.setEmailId(adminDTO.getEmailId());
 

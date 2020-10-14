@@ -16,7 +16,7 @@ public class AdminDTO {
 
 	private String userName;
 
-	private String adminName;
+	private String name;
 
 	private String emailId;
 

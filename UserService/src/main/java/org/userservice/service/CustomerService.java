@@ -45,7 +45,11 @@ public class CustomerService {
 
 		Customer cust = customerRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
 
-		return modelMapper.map(cust, CustomerDTO.class);
+		CustomerDTO customerdto=modelMapper.map(cust, CustomerDTO.class);
+		
+		customerdto.setUserName(cust.getLoginCredentials().getUserName());
+		
+		return customerdto;
 	}
 
 	public String deleteCustomer(Long id) {
@@ -68,7 +72,7 @@ public class CustomerService {
 		customer.setAadharNumber(customerDTO.getAadharNumber());
 		customer.setContactNumber(customerDTO.getContactNumber());
 		customer.setEmailId(customerDTO.getEmailId());
-		customer.setCustName(customerDTO.getCustName());
+		customer.setName(customerDTO.getName());
 		customerRepo.save(customer);
 		return ApplicationMessage.UPDATE_MESSAGE;
 	}

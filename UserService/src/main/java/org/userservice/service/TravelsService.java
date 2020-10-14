@@ -4,13 +4,17 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.userservice.entity.Customer;
 import org.userservice.entity.LoginCredentials;
 import org.userservice.entity.Travels;
 import org.userservice.exception.NoCustomerFoundException;
+import org.userservice.model.CustomerDTO;
 import org.userservice.model.LoginTravellerDTO;
 import org.userservice.model.TravellerDTO;
+import org.userservice.repo.LoginRepo;
 import org.userservice.repo.TravelsRepo;
 import org.userservice.utility.ApplicationMessage;
 import org.userservice.utility.ApplicationUserRole;
@@ -24,7 +28,8 @@ public class TravelsService {
 	
 	private final TravelsRepo travelsRepo;
 	private final EmailService ems;
-	
+	private final ModelMapper modelMapper;
+	private final LoginRepo loginRepo;
 	
 	
 	@Value("${MAIL_SERVICE_TRAVELS}")
@@ -40,7 +45,7 @@ public class TravelsService {
 
 		travels.setAadharNumber(loginTravellerDTO.getAadharNumber());
 		travels.setContactNumber(loginTravellerDTO.getContactNumber());
-		travels.setTravelsName(loginTravellerDTO.getTravelsName());
+		travels.setName(loginTravellerDTO.getName());
 		travels.setEmailId(loginTravellerDTO.getEmailId());
 
 		
@@ -59,18 +64,7 @@ public class TravelsService {
 		ems.sendMail(mailId,htsr, token);
 
 	}
-	
-//	public String confirmTravels(String token) {
-//
-//		LoginCredentials login = loginRepo.findByToken(token)
-//				.orElseThrow(() -> new NoCustomerFoundException("No Such Customer Found"));
-//		
-//		login.setIsActive(true);
-//		login.setToken(null);
-//
-//		loginRepo.save(login);
-//		return ApplicationMessage.TOKEN_VERIFY;
-//	}
+
 
 	public String updateTravels(Long id, TravellerDTO travellerDTO) {
 
@@ -86,7 +80,7 @@ public class TravelsService {
 		travels.setAadharNumber(travellerDTO.getAadharNumber());
 		travels.setContactNumber(travellerDTO.getContactNumber());
 		travels.setEmailId(travellerDTO.getEmailId());
-		travels.setTravelsName(travellerDTO.getTravelsName());
+		travels.setName(travellerDTO.getName());
 		travelsRepo.save(travels);
 		
 		return ApplicationMessage.UPDATE_MESSAGE;
@@ -99,6 +93,34 @@ public class TravelsService {
 		travelsRepo.delete(travels);
 		
 		return ApplicationMessage.DELETE_MESSAGE;
+	}
+
+	public TravellerDTO getTravelsById(Long id) {
+
+
+		Travels travels=travelsRepo.findById(id).orElseThrow(() -> new NoCustomerFoundException("No Data Found"));
+		
+		return modelMapper.map(travels, TravellerDTO.class);
+		
+		
+	}
+
+
+	public TravellerDTO getTravelsByName(String name) {
+		
+
+		LoginCredentials login = loginRepo.findByUserName(name)
+				.orElseThrow(() -> new NoCustomerFoundException("No Such Customer Found"));
+		
+		Travels travels = travelsRepo.findByLoginCredentials(login).get();
+
+		TravellerDTO travellerDTO = modelMapper.map(travels, TravellerDTO.class);
+
+		travellerDTO.setRoleName(travels.getLoginCredentials().getRoleName());
+		travellerDTO.setUserName(travels.getLoginCredentials().getUserName());
+		
+		
+		return travellerDTO;
 	}
 
 }

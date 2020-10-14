@@ -16,7 +16,7 @@ public class TravellerDTO {
 
 	private String userName;
 
-	private String travelsName;
+	private String name;
 
 	private String emailId;
 

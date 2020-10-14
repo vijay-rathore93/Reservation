@@ -20,17 +20,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final CustomErrorHandler customErrorHandler;
 	private final CustomSuccesHandler customSuccesHandler;
 
-	private String[] allowedRequestURI = { "/customer", "/confirmCustomer", "/admin", "/confirmAdmin", "/traveller",
-			"/confirmTraveller" };
+	private String[] allowedRequestURI = { "/customer", "/confirmCustomer", "/admin", "/confirmAdmin", "/traveller/**",
+			"/confirmTraveller","/confirm" };
 
 	private String[] travelsRoleRequestURIs = { "/travels/**", "travel", "/seat/**", "/seats", "/buses", "/bus",
-			"/busStatus/**", "/busCategory/**", "/customers/**", "/customerByName/**", "/customerById/**" };
+			"/busStatus/**", "/busCategory/**", "/customers/**", "/travelsById/**", "/travelsByName/**","/travellerById/**" };
 
 	private String[] adminRoleRequestURIs = { "travel", "/seat/**", "/updateSeats", "/buses", "/bus", "/busStatus/**",
-			"/busCategory/**", "/customers/**", "/customerByName/**", "/customerById/**" };
+			"/busCategory/**" };
 
 	private String[] passengerRoleRequestURIs = { "/bookings", "/booking/**", "/ticket", "/cancelTicket",
-			"/customer/**" };
+			"/customer/**", "/customerUpdate/**", "/customerDelete/**" };
 
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
@@ -41,10 +41,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers(allowedRequestURI).permitAll();
-		http.authorizeRequests().antMatchers(travelsRoleRequestURIs)
-				.hasAnyRole(ApplicationUserRole.TRAVELS.name(), ApplicationUserRole.ADMIN.name())
-				.antMatchers(passengerRoleRequestURIs).hasAnyRole(ApplicationUserRole.PASSENGER.name(),
-						ApplicationUserRole.ADMIN.name(), ApplicationUserRole.TRAVELS.name());
+//		http.authorizeRequests().antMatchers(travelsRoleRequestURIs)
+//				.hasAnyRole(ApplicationUserRole.TRAVELS.name(), ApplicationUserRole.ADMIN.name())
+//				.antMatchers(passengerRoleRequestURIs).hasAnyRole(ApplicationUserRole.PASSENGER.name(),
+//						ApplicationUserRole.ADMIN.name(), ApplicationUserRole.TRAVELS.name());
+
+		http.authorizeRequests().antMatchers(travelsRoleRequestURIs).hasRole(ApplicationUserRole.TRAVELS.name())
+				.antMatchers(passengerRoleRequestURIs).hasAnyRole(ApplicationUserRole.PASSENGER.name())
+				.antMatchers(adminRoleRequestURIs).hasRole(ApplicationUserRole.ADMIN.name())
+				.antMatchers("/customerByName/**", "/customerById/**", "/customers")
+				.hasAnyRole(ApplicationUserRole.TRAVELS.name(), ApplicationUserRole.ADMIN.name());
 
 		http.authorizeRequests().anyRequest().authenticated().and().httpBasic().and().formLogin().loginPage("/login")
 				.successHandler(customSuccesHandler).failureHandler(customErrorHandler).permitAll();

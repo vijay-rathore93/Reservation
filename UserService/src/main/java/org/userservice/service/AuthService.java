@@ -35,6 +35,8 @@ public class AuthService {
 		login.setToken(null);
 
 		loginRepo.save(login);
+		
+		
 		return ApplicationMessage.TOKEN_VERIFY;
 	}
 

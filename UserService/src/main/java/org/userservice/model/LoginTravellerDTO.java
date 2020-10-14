@@ -24,7 +24,7 @@ public class LoginTravellerDTO {
 
 	private Long customerId;
 
-	private String travelsName;
+	private String name;
 
 	private String emailId;
 

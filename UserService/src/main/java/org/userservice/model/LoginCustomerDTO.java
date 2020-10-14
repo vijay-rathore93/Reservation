@@ -23,7 +23,7 @@ public class LoginCustomerDTO {
 
 	private Long customerId;
 
-	private String custName;
+	private String name;
 
 	private String emailId;
 

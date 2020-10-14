@@ -22,7 +22,7 @@ public class EmailService {
 	
 	@Async
 	public void sendMail(String emailId, HttpServletRequest htsr, String token) {
-		String url = htsr.getScheme() + "://" + htsr.getServerName() + ":" + htsr.getServerPort();
+		String url = htsr.getScheme() + "://" + htsr.getServerName() + ":" + "8080";
 		System.out.println(url);
 		SimpleMailMessage smm = new SimpleMailMessage();
 		smm.setTo(emailId);
@@ -30,6 +30,8 @@ public class EmailService {
 
 		smm.setText(url + "/confirm?token=" + token);
 
+		System.out.println(url + "/confirm?token=" + token);
+		
 		javaMailSender.send(smm);
 
 	}

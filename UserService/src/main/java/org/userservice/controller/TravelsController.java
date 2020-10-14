@@ -40,8 +40,24 @@ public class TravelsController {
 		return new ResponseEntity<>(new ResponseDTO<>(travelsService.updateTravels(id, travellerDTO)), HttpStatus.OK);
 
 	}
+	
+	@GetMapping("/travels/{id}")
+	public ResponseEntity<TravellerDTO> getTravelsById(@PathVariable Long id,
+			@RequestBody TravellerDTO travellerDTO) {
+		return new ResponseEntity<>(travelsService.getTravelsById(id), HttpStatus.OK);
+		
 
-	@DeleteMapping("/travels/{id}")
+	}
+	
+	
+	@GetMapping("/travelsByName/{name}")
+	public ResponseEntity<TravellerDTO> getTravelsByName(@PathVariable String name) {
+
+		return new ResponseEntity<>(travelsService.getTravelsByName(name), HttpStatus.OK);
+	}
+
+
+	@DeleteMapping("/travelsById/{id}")
 	public ResponseEntity<ResponseDTO<String>> deleteTravels(@PathVariable Long id) {
 
 		return new ResponseEntity<ResponseDTO<String>>(new ResponseDTO<String>(travelsService.deleteTravels(id)),

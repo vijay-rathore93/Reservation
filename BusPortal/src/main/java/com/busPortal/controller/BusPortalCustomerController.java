@@ -57,7 +57,7 @@ public class BusPortalCustomerController {
 
 	}
 
-	@DeleteMapping("/customer/{id}")
+	@DeleteMapping("/customerDelete/{id}")
 	public ResponseEntity<ResponseDTO<String>> deleteCustomer(@PathVariable Long id) {
 
 		return new ResponseEntity<ResponseDTO<String>>(
@@ -65,16 +65,12 @@ public class BusPortalCustomerController {
 
 	}
 
-	@PatchMapping("/customer/{id}")
+	@PatchMapping("/customerUpdate/{id}")
 	public ResponseEntity<ResponseDTO<String>> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customer) {
 		return new ResponseEntity<>(new ResponseDTO<>(busPortalCustomerService.updateCustomer(id, customer)),
 				HttpStatus.OK);
 
 	}
 
-	@GetMapping("/confirmCustomer")
-	public ResponseEntity<ResponseDTO<String>> confirmCustomer(@RequestParam String token) {
-		return new ResponseEntity<>(new ResponseDTO<>(busPortalCustomerService.confirmCustomer(token)), HttpStatus.OK);
-	}
 
 }

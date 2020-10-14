@@ -24,7 +24,7 @@ public class Travels {
 	@GeneratedValue
 	private Long travelsId;
 
-	private String travelsName;
+	private String name;
 
 	private String emailId;
 

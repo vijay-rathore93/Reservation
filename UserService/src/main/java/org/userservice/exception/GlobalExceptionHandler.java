@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(NoCustomerFoundException.class)
 	public ResponseEntity<ResponseDTO<String>> handlingCustomerException(NoCustomerFoundException ex) {
-		return new ResponseEntity<>(new ResponseDTO<>(ex.getMessage()), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(new ResponseDTO<>(ex.getMessage()), HttpStatus.OK);
 	}
 
 	@ExceptionHandler(ConstraintViolationException.class)

@@ -4,7 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,11 +36,21 @@ public class BusPortalTravellerController {
 	}
 	
 	
-	@GetMapping("/confirmTraveller")
-	public ResponseEntity<ResponseDTO<String>> confirmTravels(@RequestParam String token) {
-		return new ResponseEntity<>(new ResponseDTO<>(busPortalTravellerService.confirmTravels(token)), HttpStatus.OK);
+
+	
+	@PatchMapping("/travellerById/{id}")
+	public ResponseEntity<ResponseDTO<String>> updateTravels(@PathVariable Long id,
+			@RequestBody TravellerDTO travellerDTO) {
+		return new ResponseEntity<>(new ResponseDTO<>(busPortalTravellerService.updateTravels(id, travellerDTO)), HttpStatus.OK);
+
 	}
-	
-	
+
+	@DeleteMapping("/traveller/{id}")
+	public ResponseEntity<ResponseDTO<String>> deleteTravels(@PathVariable Long id) {
+
+		return new ResponseEntity<ResponseDTO<String>>(new ResponseDTO<String>(busPortalTravellerService.deleteTravels(id)),
+				HttpStatus.OK);
+
+	}
 
 }

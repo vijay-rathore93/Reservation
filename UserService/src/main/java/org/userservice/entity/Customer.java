@@ -24,7 +24,7 @@ public class Customer {
 	@GeneratedValue
 	private Long customerId;
 
-	private String custName;
+	private String name;
 
 	private String emailId;
 

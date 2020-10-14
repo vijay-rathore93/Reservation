@@ -17,7 +17,11 @@ public class GlobalExceptionHandler {
 				HttpStatus.BAD_REQUEST);
 	}
 	
-	
+	@ExceptionHandler(UserException.class)
+	public ResponseEntity<ResponseDTO<String>> handlingUserException(UserException ex) {
+		return new ResponseEntity<>(new ResponseDTO<>( ex.getMessage()),
+				HttpStatus.BAD_REQUEST);
+	}
 	
 
 }

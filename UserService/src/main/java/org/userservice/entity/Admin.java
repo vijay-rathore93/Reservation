@@ -24,7 +24,7 @@ public class Admin {
 	@GeneratedValue
 	private Long adminId;
 
-	private String adminName;
+	private String name;
 
 	private String emailId;
 

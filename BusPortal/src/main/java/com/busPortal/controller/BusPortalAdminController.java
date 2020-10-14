@@ -33,10 +33,6 @@ public class BusPortalAdminController {
 
 	}
 	
-	
-	@GetMapping("/confirmAdmin")
-	public ResponseEntity<ResponseDTO<String>> confirmAdmin(@RequestParam String token) {
-		return new ResponseEntity<>(new ResponseDTO<>(busPortalAdminService.confirmAdmin(token)), HttpStatus.OK);
-	}
+
 	
 }

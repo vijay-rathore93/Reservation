@@ -16,7 +16,7 @@ public class CustomerDTO {
 
 	private String userName;
 
-	private String custName;
+	private String name;
 
 	private String emailId;
 

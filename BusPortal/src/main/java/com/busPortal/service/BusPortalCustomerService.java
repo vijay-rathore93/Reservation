@@ -103,6 +103,12 @@ public class BusPortalCustomerService {
 		}
 
 		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByNameURL + name, CustomerDTO.class);
+		
+		
+		if(rec.getBody().getUserName()==null)
+		{
+			throw new CustomerException("No Data Found");
+		}
 
 		return rec.getBody();
 
@@ -139,6 +145,12 @@ public class BusPortalCustomerService {
 		
 		ResponseEntity<CustomerDTO> rec = restTemplate.getForEntity(customerByIdURL + id, CustomerDTO.class);
 
+		if(rec.getBody().getUserName()==null)
+		{
+			throw new CustomerException("No Data Found");
+		}
+		
+		
 		return rec.getBody();
 
 	}
@@ -158,7 +170,7 @@ public class BusPortalCustomerService {
 		if (!z.equalsIgnoreCase("ROLE_TRAVELS")) {
 
 			if (getCustomerByName(SecurityContextHolder.getContext().getAuthentication().getName()).getCustomerId() != id) {
-				throw new CustomerException("Sorry! can't check other Customer Details!");
+				throw new CustomerException("Sorry! can't delete other Customer Details!");
 			}
 
 		}
